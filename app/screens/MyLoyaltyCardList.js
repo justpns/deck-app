@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { StatusBar, View, TouchableOpacity, FlatList } from 'react-native';
+import { StatusBar, StyleSheet, View, TouchableOpacity, FlatList } from 'react-native';
+import { Divider, Caption } from '@shoutem/ui';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -9,11 +10,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Container } from '../components/Container';
 import MyCardDetail from '../components/MyCard/MyCardDetail';
 
-const styles = EStyleSheet.create({
+const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: 15,
     flexDirection: 'column',
-    backgroundColor: '$white',
+    backgroundColor: '#FFFFFF',
   },
   separatorStyle: {
     backgroundColor: 'transparent',
@@ -88,7 +89,10 @@ class MyLoyaltyCardList extends Component {
 
   render() {
     const { contentContainer } = styles;
+    // const separatorStyle = StyleSheet.flatten(styles.separatorStyle);
+    
     const { cards, columns } = this.state;
+
     return (
       <Container backgroundColor={this.props.primaryColor}>
         <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />
@@ -96,7 +100,11 @@ class MyLoyaltyCardList extends Component {
           <FlatList
             numColumns={columns}
             data={cards}
-            renderItem={({ item }) => <MyCardDetail card_detail={item} />}
+            renderItem={({ item }) => (
+              <TouchableOpacity>
+                <MyCardDetail card_detail={item} />
+              </TouchableOpacity>
+            )}
             keyExtractor={item => item.id}
           />
         </View>
