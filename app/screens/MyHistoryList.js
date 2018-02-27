@@ -1,34 +1,35 @@
-import PropTypes from "prop-types";
-import React, { Component } from "react";
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { 
-    Container, 
-    Header, 
-    Content, 
-    Card, 
-    CardItem, 
-    Text, 
-    Body,
-} from "native-base";
+  StatusBar, 
+  TouchableOpacity, 
+} from 'react-native';
+
+import {
+  Content,
+  Card,
+  CardItem,
+  Text,
+  Body,
+} from 'native-base';
+
+
+import { Container } from '../components/Container';
 
 class MyHistoryList extends Component {
+
+  static propTypes = {
+    navigation: PropTypes.object,
+    dispatch: PropTypes.func,
+    isFetching: PropTypes.bool,
+    primaryColor: PropTypes.string,
+    alertWithType: PropTypes.func,
+  };
+
   render() {
     return (
-      <Container>
-        <Content>
-          <Card>
-            <CardItem header>
-              <Text>My History List</Text>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <Text>//Your text here</Text>
-              </Body>
-            </CardItem>
-            <CardItem footer>
-              <Text>GeekyAnts</Text>
-            </CardItem>
-          </Card>
-        </Content>
+       <Container backgroundColor={this.props.primaryColor}>
+        <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />
       </Container>
     );
   }
