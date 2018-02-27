@@ -1,5 +1,5 @@
 {
-    "name": "deck-application",
+    "name": "deck-app",
     "version": "0.0.1",
     "private": true,
     "scripts": {
@@ -11,8 +11,21 @@
         "format-code": "yarn run prettier && yarn run lint:fix"
     },
     "dependencies": {
+        "@expo/vector-icons": "^6.3.1",
+        "axios": "^0.18.0",
+        "color": "^3.0.0",
+        "native-base": "^2.3.9",
+        "prop-types": "^15.6.1",
         "react": "16.2.0",
-        "react-native": "0.53.3"
+        "react-native": "0.53.3",
+        "react-native-dropdownalert": "^3.3.0",
+        "react-native-extended-stylesheet": "^0.8.1",
+        "react-native-vector-icons": "^4.5.0",
+        "react-navigation": "^1.2.1",
+        "react-redux": "^5.0.7",
+        "redux": "^3.7.2",
+        "redux-logger": "^3.0.6",
+        "redux-saga": "^0.16.0"
     },
     "devDependencies": {
         "babel-eslint": "^8.2.2",

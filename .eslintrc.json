@@ -24,6 +24,5 @@
     "rules": {
         "arrow-body-style": "warn",
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "react/display-name": [2]
     }
 }
