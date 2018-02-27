@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Container as NBContainer } from 'native-base';
-
+import { View } from 'react-native';
 import styles from './styles';
 
 const Container = ({ children, backgroundColor }) => {
@@ -10,9 +9,9 @@ const Container = ({ children, backgroundColor }) => {
     containerStyles.push({ backgroundColor });
   }
   return (
-      <NBContainer style={containerStyles}>
+      <View style={containerStyles}>
         {children}
-      </NBContainer>
+      </View>
   );
 };
 

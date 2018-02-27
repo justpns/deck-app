@@ -1,23 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { 
-  StatusBar, 
-  TouchableOpacity, 
-} from 'react-native';
-
 import {
-  Content,
-  Card,
-  CardItem,
-  Text,
-  Body,
-} from 'native-base';
-
+  StatusBar,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { Container } from '../components/Container';
 
 class MyHistoryList extends Component {
-
   static propTypes = {
     navigation: PropTypes.object,
     dispatch: PropTypes.func,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'native-base';
+import { View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Navigator from './config/routes';
 
@@ -18,7 +18,5 @@ EStyleSheet.build({
 
 
 export default () => (
-  <Container>
-    <Navigator onNavigationStateChange={null} />
-  </Container>
+  <Navigator onNavigationStateChange={null} />
 );

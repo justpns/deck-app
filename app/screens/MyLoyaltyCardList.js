@@ -1,24 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { 
-  StatusBar, 
-  TouchableOpacity, 
-} from 'react-native';
-
-import {
-  Content,
-  Separator,
-  Text, 
-} from 'native-base';
+import { StatusBar, View, TouchableOpacity, FlatList } from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { Container } from '../components/Container';
+import MyCardDetail from '../components/MyCard/MyCardDetail';
 
 const styles = EStyleSheet.create({
   contentContainer: {
+    paddingHorizontal: 15,
     flexDirection: 'column',
     backgroundColor: '$white',
   },
@@ -59,16 +52,54 @@ class MyLoyaltyCardList extends Component {
     alertWithType: PropTypes.func,
   };
 
+  constructor() {
+    super();
+
+    this.state = {
+      columns: 2,
+      cards: [
+        {
+          id: '1',
+          img:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/AirAsia_New_Logo.svg/1200px-AirAsia_New_Logo.svg.png',
+          point: '3000',
+        },
+        {
+          id: '2',
+          img:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/AirAsia_New_Logo.svg/1200px-AirAsia_New_Logo.svg.png',
+          point: '3000',
+        },
+        {
+          id: '3',
+          img:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/AirAsia_New_Logo.svg/1200px-AirAsia_New_Logo.svg.png',
+          point: '3000',
+        },
+        {
+          id: '4',
+          img:
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/AirAsia_New_Logo.svg/1200px-AirAsia_New_Logo.svg.png',
+          point: '3000',
+        },
+      ],
+    };
+  }
+
   render() {
-    const { contentContainer, separatorStyle, separatorLabel } = styles;
+    const { contentContainer } = styles;
+    const { cards, columns } = this.state;
     return (
       <Container backgroundColor={this.props.primaryColor}>
         <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />
-        <Content style={contentContainer}>
-          <Separator style={separatorStyle}>
-            <Text style={separatorLabel}>Available Cards</Text>
-          </Separator>
-        </Content>
+        <View style={contentContainer}>
+          <FlatList
+            numColumns={columns}
+            data={cards}
+            renderItem={({ item }) => <MyCardDetail card_detail={item} />}
+            keyExtractor={item => item.id}
+          />
+        </View>
       </Container>
     );
   }
