@@ -6,16 +6,13 @@ const screen = Dimensions.get('window');
 
 const styles = EStyleSheet.create({
   cardContainer: {
-    width: (screen.width - 10 * 5) / 2,
-    height: 100,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
+    flex: 1,
+    width: (screen.width - (10 * 4)),
+    height: 220,
     elevation: 1,
-    paddingVertical: 15,
+    borderRadius: 16,
     marginHorizontal: 5,
-    marginVertical: 5,
+    marginVertical: 8,
   },
 });
 

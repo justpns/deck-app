@@ -8,6 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import ActionButton from 'react-native-action-button';
+import SegmentedControlTab from 'react-native-segmented-control-tab';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -20,17 +21,13 @@ import MyCardDetail from '../components/MyCard/MyCardDetail';
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
-    paddingHorizontal: 15,
+    paddingHorizontal: 16,
+    marginVertical: 16,
     flexDirection: 'column',
     backgroundColor: '#FFFFFF',
   },
-  separatorStyle: {
-    backgroundColor: 'transparent',
-  },
-  separatorLabel: {
-    fontWeight: '300',
-    fontSize: 14,
-    color: '#C0C0C0',
+  tabContainerStyle: {
+    backgroundColor: '#000',
   },
   actionButtonIcon: {
     fontSize: 20,
@@ -47,12 +44,12 @@ class MyLoyaltyCardList extends Component {
       headerTitle: 'LOYALTY CARDS',
       headerLeft: (
         <TouchableOpacity>
-          <MaterialIcons name="face" size={26} color="#C8CBFA" />
+          <MaterialIcons name="face" size={30} color="#C8CBFA" />
         </TouchableOpacity>
       ),
       headerRight: (
         <TouchableOpacity onPress={() => navigation.navigate('HistoryList')}>
-          <MaterialIcons name="description" size={26} color="#C8CBFA" />
+          <MaterialIcons name="description" size={30} color="#C8CBFA" />
         </TouchableOpacity>
       ),
     };
@@ -70,38 +67,40 @@ class MyLoyaltyCardList extends Component {
     super();
 
     this.state = {
-      columns: 2,
+      columns: 1,
+      selectedIndex: 0,
       cards: [
         {
           id: '1',
+          name: 'AirAsia Big Card',
           img:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/AirAsia_New_Logo.svg/1200px-AirAsia_New_Logo.svg.png',
+            'http://traveldailynews.asia/uploads/images/AirAsia-BIG_x589.jpg',
           point: '3000',
         },
         {
           id: '2',
+          name: 'Tesco Club Card',
           img:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/AirAsia_New_Logo.svg/1200px-AirAsia_New_Logo.svg.png',
-          point: '3000',
+            'https://www.tescolotus.com/assets/theme2017/clubcard/img/point/points-03.jpg',
+          point: '2500',
         },
         {
           id: '3',
+          name: 'PTT Blue Card',
           img:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/AirAsia_New_Logo.svg/1200px-AirAsia_New_Logo.svg.png',
-          point: '3000',
-        },
-        {
-          id: '4',
-          img:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/AirAsia_New_Logo.svg/1200px-AirAsia_New_Logo.svg.png',
-          point: '3000',
+            'https://www.pttbluecard.com/Content/Themes/pttbluecard/img/about-apply.jpg',
+          point: '500',
         },
       ],
     };
   }
 
+  handleIndexChange = (index) => {
+    this.setState({ selectedIndex: index });
+  }
+
   render() {
-    const { contentContainer, actionButtonIcon } = styles;
+    const { contentContainer, actionButtonIcon, tabContainerStyle } = styles;
     // const separatorStyle = StyleSheet.flatten(styles.separatorStyle);
 
     const { cards, columns } = this.state;
@@ -110,7 +109,17 @@ class MyLoyaltyCardList extends Component {
       <Container backgroundColor={this.props.primaryColor}>
         <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />
         <View style={contentContainer}>
-          {/* <FlatList
+        {/* <SegmentedControlTab
+              values={['First', 'Second', 'Third']}
+              selectedIndex={this.state.selectedIndex}
+              onTabPress={this.handleIndexChange}
+              tabsContainerStyle={tabContainerStyle}
+              tabStyle={tabContainerStyle}
+              tabTextStyle={tabContainerStyle}
+              activeTabStyle={tabContainerStyle}
+              activeTabTextStyle={tabContainerStyle}
+         /> */}
+          <FlatList
             numColumns={columns}
             data={cards}
             renderItem={({ item }) => (
@@ -119,13 +128,13 @@ class MyLoyaltyCardList extends Component {
               </TouchableOpacity>
             )}
             keyExtractor={item => item.id}
-          /> */}
+          />
           <ActionButton
               buttonColor="rgba(157, 162, 251, 1)"
-              onPress={() => { 
-                console.log("hi")
+              onPress={() => {
+                console.log('hi');
               }}
-              renderIcon={() => <MaterialIcons name="queue" style={actionButtonIcon} />}  
+              renderIcon={() => <MaterialIcons name="queue" style={actionButtonIcon} />}
           />
         </View>
       </Container>

@@ -10,7 +10,7 @@ const MainStack = StackNavigator({
       headerStyle: {
         backgroundColor: '#FFF',
         elevation: 0,
-        paddingHorizontal: 15,
+        paddingHorizontal: 16,
       },
       headerTintColor: '#9DA2FB',
       headerTitleStyle: {
@@ -27,6 +27,7 @@ const MainStack = StackNavigator({
       headerStyle: {
         backgroundColor: '#FFF',
         elevation: 0,
+        paddingHorizontal: 16,
       },
       headerTintColor: '#9DA2FB',
       headerTitleStyle: {
