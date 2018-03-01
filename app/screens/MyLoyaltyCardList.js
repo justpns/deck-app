@@ -1,17 +1,25 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { StatusBar, StyleSheet, View, TouchableOpacity, FlatList } from 'react-native';
-import { Divider, Caption } from '@shoutem/ui';
+import {
+  StatusBar,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
+import ActionButton from 'react-native-action-button';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Container } from '../components/Container';
 import MyCardDetail from '../components/MyCard/MyCardDetail';
 
 const styles = StyleSheet.create({
   contentContainer: {
+    flex: 1,
     paddingHorizontal: 15,
     flexDirection: 'column',
     backgroundColor: '#FFFFFF',
@@ -24,6 +32,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#C0C0C0',
   },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
+  },
 });
 
 class MyLoyaltyCardList extends Component {
@@ -31,15 +44,15 @@ class MyLoyaltyCardList extends Component {
     const { params } = navigation.state;
 
     return {
-      headerTitle: 'MY CARDS',
+      headerTitle: 'LOYALTY CARDS',
       headerLeft: (
         <TouchableOpacity>
-          <MaterialIcons name="face" size={20} color="#C8CBFA" />
+          <MaterialIcons name="face" size={26} color="#C8CBFA" />
         </TouchableOpacity>
       ),
       headerRight: (
         <TouchableOpacity onPress={() => navigation.navigate('HistoryList')}>
-          <MaterialIcons name="description" size={20} color="#C8CBFA" />
+          <MaterialIcons name="description" size={26} color="#C8CBFA" />
         </TouchableOpacity>
       ),
     };
@@ -88,16 +101,16 @@ class MyLoyaltyCardList extends Component {
   }
 
   render() {
-    const { contentContainer } = styles;
+    const { contentContainer, actionButtonIcon } = styles;
     // const separatorStyle = StyleSheet.flatten(styles.separatorStyle);
-    
+
     const { cards, columns } = this.state;
 
     return (
       <Container backgroundColor={this.props.primaryColor}>
         <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />
         <View style={contentContainer}>
-          <FlatList
+          {/* <FlatList
             numColumns={columns}
             data={cards}
             renderItem={({ item }) => (
@@ -106,6 +119,13 @@ class MyLoyaltyCardList extends Component {
               </TouchableOpacity>
             )}
             keyExtractor={item => item.id}
+          /> */}
+          <ActionButton
+              buttonColor="rgba(157, 162, 251, 1)"
+              onPress={() => { 
+                console.log("hi")
+              }}
+              renderIcon={() => <MaterialIcons name="queue" style={actionButtonIcon} />}  
           />
         </View>
       </Container>

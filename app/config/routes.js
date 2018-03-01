@@ -16,7 +16,7 @@ const MainStack = StackNavigator({
       headerTitleStyle: {
         fontWeight: '300',
         fontFamily: 'Arial',
-        fontSize: 16,
+        fontSize: 20,
       },
     }),
   },
@@ -32,7 +32,7 @@ const MainStack = StackNavigator({
       headerTitleStyle: {
         fontWeight: '300',
         fontFamily: 'Arial',
-        fontSize: 16,
+        fontSize: 20,
       },
     }),
   },
