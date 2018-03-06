@@ -1,35 +1,27 @@
-import { StackNavigator } from 'react-navigation';
+import React from 'react';
+import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
+import {
+  Dimensions,
+} from 'react-native';
+
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import MyLoyaltyCardList from '../screens/MyLoyaltyCardList';
-import MyHistoryList from '../screens/MyHistoryList';
+import MyProfile from '../screens/MyProfile';
 
-const MainStack = StackNavigator({
+const screen = Dimensions.get('window');
+
+const LoyaltyCardStack = StackNavigator({
   LoyaltyCardList: {
     screen: MyLoyaltyCardList,
     navigationOptions: ({ navigation }) => ({
       headerStyle: {
-        backgroundColor: '#FFF',
+        backgroundColor: '#9DA2FB',
         elevation: 0,
         paddingHorizontal: 16,
+        height: screen.height / 6,
       },
-      headerTintColor: '#9DA2FB',
-      headerTitleStyle: {
-        fontWeight: '300',
-        fontFamily: 'Arial',
-        fontSize: 20,
-      },
-    }),
-  },
-  HistoryList: {
-    screen: MyHistoryList,
-    navigationOptions: ({ navigation }) => ({
-      headerTitle: 'MY HISTORY',
-      headerStyle: {
-        backgroundColor: '#FFF',
-        elevation: 0,
-        paddingHorizontal: 16,
-      },
-      headerTintColor: '#9DA2FB',
+      headerTintColor: '#FFFFFF',
       headerTitleStyle: {
         fontWeight: '300',
         fontFamily: 'Arial',
@@ -39,33 +31,54 @@ const MainStack = StackNavigator({
   },
 });
 
-// const HistoryStack = StackNavigator({
-//   HistoryList: {
-//     screen: MyHistoryList,
-//     navigationOptions: ({ navigation }) => ({
-//       headerTitle: 'MY HISTORY',
-//       headerStyle: {
-//         backgroundColor: '#FFF',
-//         elevation: 0,
-//       },
-//       headerTintColor: '#9DA2FB',
-//       headerTitleStyle: {
-//         fontWeight: '300',
-//         fontFamily: 'Arial',
-//         fontSize: 16,
-//       },
-//     }),
-//   },
-// });
+const ProfileStack = StackNavigator({
+  MyProfile: {
+    screen: MyProfile,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#9DA2FB',
+        elevation: 0,
+        paddingHorizontal: 16,
+        height: screen.height / 6,
+      },
+      headerTintColor: '#FFFFFF',
+      headerTitleStyle: {
+        fontWeight: '300',
+        fontFamily: 'Arial',
+        fontSize: 20,
+      },
+    }),
+  },
+});
 
+const MainNavigator = TabNavigator(
+  {
+    MyCard: { screen: LoyaltyCardStack },
+    MyProfile: { screen: ProfileStack },
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === 'MyCard') {
+          iconName = 'card-giftcard';
+        } else if (routeName === 'MyProfile') {
+          iconName = 'face';
+        }
+        return <MaterialIcons name={iconName} size={25} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: '#9DA2FB',
+      inactiveTintColor: 'gray',
+      showLabel: false,
+    },
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: 'bottom',
+    animationEnabled: false,
+    swipeEnabled: false,
+  },
+);
 
-// const RootStack = StackNavigator({
-//   Main: {
-//     screen: MainStack,
-//   },
-//   HistoryModal: {
-//     screen: HistoryStack,
-//   },
-// });
-
-export default MainStack;
+export default MainNavigator;

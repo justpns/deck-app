@@ -6,14 +6,13 @@ import {
   View,
   TouchableOpacity,
   FlatList,
+  Text,
+  Dimensions,
 } from 'react-native';
-import ActionButton from 'react-native-action-button';
-import SegmentedControlTab from 'react-native-segmented-control-tab';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Container } from '../components/Container';
 import MyCardDetail from '../components/MyCard/MyCardDetail';
@@ -24,7 +23,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginVertical: 16,
     flexDirection: 'column',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'transparent',
   },
   tabContainerStyle: {
     backgroundColor: '#000',
@@ -34,22 +33,31 @@ const styles = StyleSheet.create({
     height: 22,
     color: 'white',
   },
+  
 });
+
+const CustomHeaderTitle = (props) => {
+  return (
+    <View>
+      <Text style={ { fontSize: 32, color: '#FFFFFF', fontWeight: '700', marginBottom: 15 } }>My cards</Text>
+    </View>
+  );
+}
 
 class MyLoyaltyCardList extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
 
     return {
-      headerTitle: 'LOYALTY CARDS',
-      headerLeft: (
-        <TouchableOpacity>
-          <MaterialIcons name="face" size={30} color="#C8CBFA" />
-        </TouchableOpacity>
-      ),
+      headerTitle: <CustomHeaderTitle/>,
+      // headerLeft: (
+      //   <TouchableOpacity>
+      //     <MaterialIcons name="face" size={30} color="#C8CBFA" />
+      //   </TouchableOpacity>
+      // ),
       headerRight: (
-        <TouchableOpacity onPress={() => navigation.navigate('HistoryList')}>
-          <MaterialIcons name="description" size={30} color="#C8CBFA" />
+        <TouchableOpacity>
+          <MaterialIcons name="add" size={32} color="#FFFFFF" />
         </TouchableOpacity>
       ),
     };
@@ -107,18 +115,8 @@ class MyLoyaltyCardList extends Component {
 
     return (
       <Container backgroundColor={this.props.primaryColor}>
-        <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />
+        <StatusBar backgroundColor="#9DA2FB" barStyle="light-content" />
         <View style={contentContainer}>
-        {/* <SegmentedControlTab
-              values={['First', 'Second', 'Third']}
-              selectedIndex={this.state.selectedIndex}
-              onTabPress={this.handleIndexChange}
-              tabsContainerStyle={tabContainerStyle}
-              tabStyle={tabContainerStyle}
-              tabTextStyle={tabContainerStyle}
-              activeTabStyle={tabContainerStyle}
-              activeTabTextStyle={tabContainerStyle}
-         /> */}
           <FlatList
             numColumns={columns}
             data={cards}
@@ -129,13 +127,7 @@ class MyLoyaltyCardList extends Component {
             )}
             keyExtractor={item => item.id}
           />
-          <ActionButton
-              buttonColor="rgba(157, 162, 251, 1)"
-              onPress={() => {
-                console.log('hi');
-              }}
-              renderIcon={() => <MaterialIcons name="queue" style={actionButtonIcon} />}
-          />
+       
         </View>
       </Container>
     );
