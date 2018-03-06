@@ -108,7 +108,9 @@ class MyLoyaltyCardList extends Component {
   }
 
   render() {
-    const { contentContainer, actionButtonIcon, tabContainerStyle } = styles;
+
+    const { navigate } = this.props.navigation;
+    const { contentContainer, actionButtonIcon } = styles;
     // const separatorStyle = StyleSheet.flatten(styles.separatorStyle);
 
     const { cards, columns } = this.state;
@@ -121,7 +123,10 @@ class MyLoyaltyCardList extends Component {
             numColumns={columns}
             data={cards}
             renderItem={({ item }) => (
-              <TouchableOpacity>
+              <TouchableOpacity 
+                onPress={
+                  () => navigate('LoyaltyCardDetail')
+                }>
                 <MyCardDetail card_detail={item} />
               </TouchableOpacity>
             )}

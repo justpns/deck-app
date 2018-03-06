@@ -7,6 +7,7 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import MyLoyaltyCardList from '../screens/MyLoyaltyCardList';
+import MyLoyaltyCardDetail from '../screens/MyLoyaltyCardDetail';
 import MyProfile from '../screens/MyProfile';
 
 const screen = Dimensions.get('window');
@@ -27,6 +28,24 @@ const LoyaltyCardStack = StackNavigator({
         fontFamily: 'Arial',
         fontSize: 20,
       },
+    }),
+  },
+  LoyaltyCardDetail: {
+    screen: MyLoyaltyCardDetail,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#9DA2FB',
+        elevation: 0,
+        paddingHorizontal: 16,
+        height: screen.height / 6,
+      },
+      headerTintColor: '#FFFFFF',
+      headerTitleStyle: {
+        fontWeight: '300',
+        fontFamily: 'Arial',
+        fontSize: 20,
+      },
+      tabBarVisible: false,
     }),
   },
 });
@@ -69,6 +88,7 @@ const MainNavigator = TabNavigator(
         return <MaterialIcons name={iconName} size={25} color={tintColor} />;
       },
     }),
+    initialRouteName: 'MyCard',
     tabBarOptions: {
       activeTintColor: '#9DA2FB',
       inactiveTintColor: 'gray',
