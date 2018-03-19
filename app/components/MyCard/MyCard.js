@@ -7,8 +7,8 @@ const screen = Dimensions.get('window');
 const styles = EStyleSheet.create({
   cardContainer: {
     flex: 1,
-    width: (screen.width - (10 * 4)),
-    height: 220,
+    width: ((screen.width - (26 * 2)) / 2),
+    height: 120,
     elevation: 1,
     borderRadius: 16,
     marginHorizontal: 5,

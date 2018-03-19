@@ -21,7 +21,7 @@ const styles = EStyleSheet.create({
     marginVertical: 8,
   },
   pointLabel: {
-    fontSize: 22,
+    fontSize: 18,
     marginHorizontal: 8,
     marginVertical: 8,
   },
@@ -33,9 +33,9 @@ const styles = EStyleSheet.create({
   cardContentHolder: {
     flex: 1,
     flexDirection: 'column',
-    width: (screen.width - (10 * 4)),
-    height: (220 / 2),
-    marginTop: 220 / 2,
+    width: ((screen.width - (26 * 2)) / 2),
+    height: (120 / 2),
+    marginTop: 120 / 2,
     paddingVertical: 10,
     paddingHorizontal: 15,
     position: 'absolute',
@@ -58,8 +58,8 @@ const MyCardDetail = (props) => {
           source={{ uri: props.card_detail.img }}
         />
         <View style={cardContentHolder}>
-          <Text style={nameLabel}>{`${props.card_detail.name}`}</Text>
-          <View style={ { flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end' } }>
+          {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
+          <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
             <Text style={pointLabel}>{`${props.card_detail.point} Points`}</Text>
           </View>
         </View>

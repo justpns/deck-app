@@ -13,13 +13,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { Container } from '../components/Container';
 
-const CustomHeaderTitle = (props) => {
-    return (
+const CustomHeaderTitle = props => (
       <View>
-        <Text style={ { fontSize: 32, color: '#FFFFFF', fontWeight: '700', marginBottom: 15 } }>My profile</Text>
+        <Text style={ {
+ fontSize: 32, color: '#FFFFFF', fontWeight: '700', marginBottom: 15,
+} }>My profile</Text>
       </View>
-    );
-}
+);
 
 class MyProfile extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -38,7 +38,7 @@ class MyProfile extends Component {
       return (
             <Container backgroundColor={this.props.primaryColor}>
                 <StatusBar backgroundColor="#9DA2FB" barStyle="light-content" />
-                
+
             </Container>
       );
     }

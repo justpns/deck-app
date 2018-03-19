@@ -1,8 +1,6 @@
 import React from 'react';
 import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
-import {
-  Dimensions,
-} from 'react-native';
+import { Dimensions } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -36,7 +34,7 @@ const LoyaltyCardStack = StackNavigator({
       headerStyle: {
         backgroundColor: '#9DA2FB',
         elevation: 0,
-        paddingHorizontal: 16,
+        paddingRight: 16,
         height: screen.height / 6,
       },
       headerTintColor: '#FFFFFF',

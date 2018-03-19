@@ -8,6 +8,7 @@ import {
   FlatList,
   Text,
   Dimensions,
+  ImageBackground,
 } from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -21,7 +22,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     paddingHorizontal: 16,
-    marginVertical: 16,
     flexDirection: 'column',
     backgroundColor: 'transparent',
   },
@@ -33,16 +33,19 @@ const styles = StyleSheet.create({
     height: 22,
     color: 'white',
   },
-  
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover', // or 'stretch'
+  },
 });
 
-const CustomHeaderTitle = (props) => {
-  return (
+const CustomHeaderTitle = props => (
     <View>
-      <Text style={ { fontSize: 32, color: '#FFFFFF', fontWeight: '700', marginBottom: 15 } }>My cards</Text>
+      <Text style={ {
+ fontSize: 32, color: '#FFFFFF', fontWeight: '700', marginBottom: 15,
+} }>My cards</Text>
     </View>
-  );
-}
+);
 
 class MyLoyaltyCardList extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -75,7 +78,7 @@ class MyLoyaltyCardList extends Component {
     super();
 
     this.state = {
-      columns: 1,
+      columns: 2,
       selectedIndex: 0,
       cards: [
         {
@@ -108,9 +111,8 @@ class MyLoyaltyCardList extends Component {
   }
 
   render() {
-
     const { navigate } = this.props.navigation;
-    const { contentContainer, actionButtonIcon } = styles;
+    const { contentContainer } = styles;
     // const separatorStyle = StyleSheet.flatten(styles.separatorStyle);
 
     const { cards, columns } = this.state;
@@ -123,16 +125,16 @@ class MyLoyaltyCardList extends Component {
             numColumns={columns}
             data={cards}
             renderItem={({ item }) => (
-              <TouchableOpacity 
+              <TouchableOpacity
                 onPress={
-                  () => navigate('LoyaltyCardDetail')
+                  () => navigate('LoyaltyCardDetail', { cardItem: item })
                 }>
                 <MyCardDetail card_detail={item} />
               </TouchableOpacity>
             )}
             keyExtractor={item => item.id}
           />
-       
+
         </View>
       </Container>
     );
