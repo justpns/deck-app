@@ -7,8 +7,6 @@ import {
   TouchableOpacity,
   FlatList,
   Text,
-  Dimensions,
-  ImageBackground,
 } from 'react-native';
 
 import EStyleSheet from 'react-native-extended-stylesheet';

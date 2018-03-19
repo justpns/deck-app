@@ -6,6 +6,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import MyLoyaltyCardList from '../screens/MyLoyaltyCardList';
 import MyLoyaltyCardDetail from '../screens/MyLoyaltyCardDetail';
+import VendorPartnerList from '../screens/VendorPartnerList';
+import Transfer from '../screens/Transfer';
 import MyProfile from '../screens/MyProfile';
 
 const screen = Dimensions.get('window');
@@ -34,19 +36,53 @@ const LoyaltyCardStack = StackNavigator({
       headerStyle: {
         backgroundColor: '#9DA2FB',
         elevation: 0,
-        paddingRight: 16,
         height: screen.height / 6,
       },
       headerTintColor: '#FFFFFF',
       headerTitleStyle: {
         fontWeight: '300',
         fontFamily: 'Arial',
-        fontSize: 20,
+        fontSize: 22,
+      },
+      tabBarVisible: false,
+    }),
+  },
+  VendorPartnerList: {
+    screen: VendorPartnerList,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#9DA2FB',
+        elevation: 0,
+        height: screen.height / 6,
+      },
+      headerTintColor: '#FFFFFF',
+      headerTitleStyle: {
+        fontWeight: '300',
+        fontFamily: 'Arial',
+        fontSize: 22,
+      },
+      tabBarVisible: false,
+    }),
+  },
+  Transfer: {
+    screen: Transfer,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#9DA2FB',
+        elevation: 0,
+        height: screen.height / 6,
+      },
+      headerTintColor: '#FFFFFF',
+      headerTitleStyle: {
+        fontWeight: '300',
+        fontFamily: 'Arial',
+        fontSize: 22,
       },
       tabBarVisible: false,
     }),
   },
 });
+
 
 const ProfileStack = StackNavigator({
   MyProfile: {

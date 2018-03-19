@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import {
-    TouchableOpacity,
-    ScrollView,
-    StyleSheet,
-    Dimensions
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+  Dimensions,
 } from 'react-native';
 
 import {
-    Tile,
-    Title,
-    Row,
-    Image,
-    View,
-    Subtitle,
-    Caption,
-    Text,
-    Heading,
-    Divider,
+  Tile,
+  Title,
+  Row,
+  Image,
+  View,
+  Subtitle,
+  Caption,
+  Text,
+  Heading,
+  Divider,
 } from '@shoutem/ui';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -29,71 +29,72 @@ import MyCardDetail from '../components/MyCard/MyCardDetail';
 const screen = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    contentContainer: {
-        flex: 1,
-        paddingHorizontal: 16,
-        marginBottom: 0,
-        flexDirection: 'column',
-        backgroundColor: '#FFF',
-        height: screen.height,
-    },
-    cardViewRow: {
-        backgroundColor: 'transparent',
-        height: 100
-    },
-    pointBalanceContainer: {
-        flex: .35,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 35,
-    },
-    topRadius: {
-        borderTopLeftRadius: 35,
-        borderTopRightRadius: 35,
-    },
-    actionButtonIcon: {
-        fontSize: 20,
-        height: 22,
-        color: 'white',
-      },
+  contentContainer: {
+    flex: 1,
+    paddingHorizontal: 16,
+    marginBottom: 0,
+    flexDirection: 'column',
+    backgroundColor: '#FFF',
+    height: screen.height,
+  },
+  cardViewRow: {
+    backgroundColor: 'transparent',
+    height: 100,
+  },
+  pointBalanceContainer: {
+    flex: 0.35,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 35,
+  },
+  topRadius: {
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+  },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
+  },
 });
 
 class MyLoyaltyCardDetail extends Component {
     static navigationOptions = ({ navigation }) => {
-        const { params } = navigation.state;
+      const { params } = navigation.state;
 
-        return {
-            headerTitle: params.cardItem.name,
-            // headerRight: (
-            //     <TouchableOpacity>
-            //         <MaterialIcons name="receipt" size={26} color="#FFFFFF" />
-            //     </TouchableOpacity>
-            // ),
-        };
+      return {
+        headerTitle: params.cardItem.name,
+        // headerRight: (
+        //     <TouchableOpacity>
+        //         <MaterialIcons name="receipt" size={26} color="#FFFFFF" />
+        //     </TouchableOpacity>
+        // ),
+      };
     };
 
     constructor(props) {
-        super(props);
+      super(props);
 
-        this.renderCardDetail = this.renderCardDetail.bind(this);
+      this.renderCardDetail = this.renderCardDetail.bind(this);
     }
 
     renderCardDetail() {
-        const { params } = this.props.navigation.state;
-        return (
+      const { params } = this.props.navigation.state;
+      return (
             <MyCardDetail card_detail={params.cardItem} />
-        );
+      );
     }
 
     render() {
-        const { params } = this.props.navigation.state;
-        const { actionButtonIcon } = styles;
-        const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
-        const contentContainer = StyleSheet.flatten(styles.contentContainer);
-        const pointBalanceContainer = StyleSheet.flatten(styles.pointBalanceContainer);
-        const topRadius = StyleSheet.flatten(styles.topRadius);
-        return (
-            <Container backgroundColor={this.props.red}>
+      const { navigate } = this.props.navigation;
+      const { params } = this.props.navigation.state;
+      const { actionButtonIcon } = styles;
+      const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
+      const contentContainer = StyleSheet.flatten(styles.contentContainer);
+      const pointBalanceContainer = StyleSheet.flatten(styles.pointBalanceContainer);
+      const topRadius = StyleSheet.flatten(styles.topRadius);
+      return (
+            <Container>
                 <View styleName="vertical">
                     <Row style={cardViewRow}>
                         {/* <Image
@@ -157,18 +158,19 @@ class MyLoyaltyCardDetail extends Component {
                         </View>
                     </Row>
                 </ScrollView>
-                
-                <ActionButton 
+
+                <ActionButton
                     buttonColor="#9DA2FB"
-                    renderIcon={ 
-                        () =>   <Icon name="logo-buffer" style={styles.actionButtonIcon} />                   
+                    renderIcon={
+                        () => <Icon name="logo-buffer" style={styles.actionButtonIcon} />
                     }>
-                    <ActionButton.Item buttonColor='#9DA2FB' title="Trasfer Point" onPress={() => console.log("notes tapped!")}>
-                        <MaterialIcons name="compare-arrows" size={22} color="#FFFFFF" /> 
-                    </ActionButton.Item>                  
+                    <ActionButton.Item buttonColor='#9DA2FB' title="Trasfer Point"
+                        onPress={() => navigate('VendorPartnerList') }>
+                        <MaterialIcons name="compare-arrows" size={22} color="#FFFFFF" />
+                    </ActionButton.Item>
                 </ActionButton>
             </Container>
-        );
+      );
     }
 }
 
