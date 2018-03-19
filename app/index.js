@@ -13,6 +13,8 @@ EStyleSheet.build({
   $border: '#E2E2E2',
   $inputText: '#797979',
   $darkText: '#343434',
+  $red: '#E50000',
+  $blue: '#E4F1FE',
 });
 
 

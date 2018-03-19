@@ -16,7 +16,7 @@ import {
     Caption,
     Text,
     Heading,
-    Divider
+    Divider,
 } from '@shoutem/ui';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -32,13 +32,14 @@ const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
         paddingHorizontal: 16,
-        paddingTop: 20,
         marginBottom: 0,
         flexDirection: 'column',
         backgroundColor: '#FFF',
+        height: screen.height,
     },
     cardViewRow: {
         backgroundColor: 'transparent',
+        height: 100
     },
     pointBalanceContainer: {
         flex: .35,
@@ -92,22 +93,22 @@ class MyLoyaltyCardDetail extends Component {
         const pointBalanceContainer = StyleSheet.flatten(styles.pointBalanceContainer);
         const topRadius = StyleSheet.flatten(styles.topRadius);
         return (
-            <Container backgroundColor={this.props.primaryColor}>
+            <Container backgroundColor={this.props.red}>
                 <View styleName="vertical">
                     <Row style={cardViewRow}>
-                        <Image
+                        {/* <Image
                             styleName="small rounded-corners"
                             source={{ uri: params.cardItem.img }}
-                        />
-                        <View styleName="vertical stretch space-between">
-                            <Title style={{ color: '#fff' }}>{params.cardItem.name}</Title>
-                            <Heading style={{ color: '#fff' }}>***** 9999 0000 1111</Heading>
+                        /> */}
+                        <View styleName="vertical stretch">
+                            <Heading style={{ color: '#fff', fontSize: 42, paddingTop: 20 }}> <MaterialIcons name="loyalty" size={26} color="#FFFFFF" /> {params.cardItem.point} </Heading>
+                            <Subtitle style={{ color: '#fff', fontSize: 18, paddingLeft: 12 }}>Balance via ***** 1234 5678 9012</Subtitle>
                         </View>
                     </Row>
                 </View>
                 <View styleName="vertical stretch space-between" style={pointBalanceContainer}>
                     <Tile styleName="text-centric" style={topRadius}>
-                        <Heading style={{ fontSize: 32, paddingVertical: 25 }}>{params.cardItem.point} Points</Heading>
+                        <Heading style={{ fontSize: 20, paddingVertical: 5 }}>Transfer History</Heading>
                         <Divider styleName="line" />
                     </Tile>
                 </View>
@@ -156,13 +157,14 @@ class MyLoyaltyCardDetail extends Component {
                         </View>
                     </Row>
                 </ScrollView>
+                
                 <ActionButton 
                     buttonColor="#9DA2FB"
                     renderIcon={ 
                         () =>   <Icon name="logo-buffer" style={styles.actionButtonIcon} />                   
                     }>
-                    <ActionButton.Item buttonColor='#9b59b6' title="Trasfer Point" onPress={() => console.log("notes tapped!")}>
-                        <Icon name="md-redo" style={styles.actionButtonIcon} />
+                    <ActionButton.Item buttonColor='#9DA2FB' title="Trasfer Point" onPress={() => console.log("notes tapped!")}>
+                        <MaterialIcons name="compare-arrows" size={22} color="#FFFFFF" /> 
                     </ActionButton.Item>                  
                 </ActionButton>
             </Container>
