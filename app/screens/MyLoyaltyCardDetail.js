@@ -64,11 +64,11 @@ class MyLoyaltyCardDetail extends Component {
 
         return {
             headerTitle: params.cardItem.name,
-            headerRight: (
-                <TouchableOpacity>
-                    <MaterialIcons name="receipt" size={26} color="#FFFFFF" />
-                </TouchableOpacity>
-            ),
+            // headerRight: (
+            //     <TouchableOpacity>
+            //         <MaterialIcons name="receipt" size={26} color="#FFFFFF" />
+            //     </TouchableOpacity>
+            // ),
         };
     };
 
