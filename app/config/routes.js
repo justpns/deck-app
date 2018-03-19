@@ -108,6 +108,7 @@ const MainNavigator = TabNavigator(
   {
     MyCard: { screen: LoyaltyCardStack },
     MyProfile: { screen: ProfileStack },
+    Transfer: { screen: Transfer },
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -122,7 +123,7 @@ const MainNavigator = TabNavigator(
         return <MaterialIcons name={iconName} size={25} color={tintColor} />;
       },
     }),
-    initialRouteName: 'MyCard',
+    initialRouteName: 'Transfer',
     tabBarOptions: {
       activeTintColor: '#9DA2FB',
       inactiveTintColor: 'gray',
