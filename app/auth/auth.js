@@ -5,10 +5,6 @@ export const USER_CITIZEN_ID = 'user-citizen';
 
 export const onSignIn = () => AsyncStorage.setItem(USER_KEY, 'true');
 
-export const saveUserCitizen = citizenId => AsyncStorage.setItem(USER_CITIZEN_ID, citizenId);
-
-export const removeUserCitizen = AsyncStorage.removeItem(USER_CITIZEN_ID);
-
 export const onSignOut = () => AsyncStorage.removeItem(USER_KEY);
 
 export const isSignedIn = () => new Promise((resolve, reject) => {
@@ -27,6 +23,6 @@ export const getUserCitizen = () => {
   const userCitizenId = AsyncStorage.getItem(USER_CITIZEN_ID);
   if (userCitizenId !== null) {
     return userCitizenId;
-  } 
+  }
   return userCitizenId;
 };

@@ -1,30 +1,30 @@
 import React, { Component } from 'react';
 import {
-  TouchableOpacity,
   ScrollView,
   StyleSheet,
   Dimensions,
+  Alert,
 } from 'react-native';
 
 import {
   Tile,
-  Title,
   Row,
   Image,
   View,
   Subtitle,
   Caption,
-  Text,
   Heading,
   Divider,
 } from '@shoutem/ui';
+
+import axios from 'axios';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ActionButton from 'react-native-action-button';
 
 import { Container } from '../components/Container';
-import MyCardDetail from '../components/MyCard/MyCardDetail';
+/* eslint no-underscore-dangle: 0 */
 
 const screen = Dimensions.get('window');
 
@@ -58,12 +58,14 @@ const styles = StyleSheet.create({
   },
 });
 
+const IP = 'http://52.230.25.97:3333';
+
 class MyLoyaltyCardDetail extends Component {
     static navigationOptions = ({ navigation }) => {
       const { params } = navigation.state;
 
       return {
-        headerTitle: params.cardItem.name,
+        headerTitle: params.cardItem[0].detail.name,
         // headerRight: (
         //     <TouchableOpacity>
         //         <MaterialIcons name="receipt" size={26} color="#FFFFFF" />
@@ -75,20 +77,59 @@ class MyLoyaltyCardDetail extends Component {
     constructor(props) {
       super(props);
 
-      this.renderCardDetail = this.renderCardDetail.bind(this);
+      this.onRequestGetCardDetail = this.onRequestGetCardDetail.bind(this);
+      this.renderHistoryDetail = this.renderHistoryDetail.bind(this);
+
+      this.state = {
+        isFetchingHistory: true,
+      };
     }
 
-    renderCardDetail() {
+    componentWillMount() {
+      this.onRequestGetCardDetail();
+    }
+
+    async onRequestGetCardDetail() {
       const { params } = this.props.navigation.state;
-      return (
-            <MyCardDetail card_detail={params.cardItem} />
-      );
+      this.setState({
+        isFetchingHistory: true,
+      });
+      const URL = `${IP}/transferPoint/${params.cardItem[0].userId}/${params.cardItem[0].cardId}`;
+      await axios({
+        method: 'get',
+        url: URL,
+      }).then((response) => {
+        if (response.status === 200) {
+          this.setState({
+            isFetchingHistory: false,
+            cardTransferHistory: response.data,
+          });
+        }
+      });
+    }
+
+    renderHistoryDetail() {
+      const { cardTransferHistory } = this.state;
+      const historyObj = [];
+      for (let i = 0; i < cardTransferHistory.length; ++i) {
+        historyObj.push(<Row>
+                <Image
+                    styleName="small rounded-corners"
+                    source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-3.png' }}
+                />
+                <View styleName="vertical stretch space-between">
+                    <Subtitle>Wilco Cover David Bowie&#39;s "Space Oddity"</Subtitle>
+                    <Caption>June 21  ->  20:00</Caption>
+                </View>
+            </Row>);
+      }
+
+      return historyObj;
     }
 
     render() {
       const { navigate } = this.props.navigation;
       const { params } = this.props.navigation.state;
-      const { actionButtonIcon } = styles;
       const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
       const contentContainer = StyleSheet.flatten(styles.contentContainer);
       const pointBalanceContainer = StyleSheet.flatten(styles.pointBalanceContainer);
@@ -97,13 +138,9 @@ class MyLoyaltyCardDetail extends Component {
             <Container>
                 <View styleName="vertical">
                     <Row style={cardViewRow}>
-                        {/* <Image
-                            styleName="small rounded-corners"
-                            source={{ uri: params.cardItem.img }}
-                        /> */}
                         <View styleName="vertical stretch">
-                            <Heading style={{ color: '#fff', fontSize: 42, paddingTop: 20 }}> <MaterialIcons name="loyalty" size={26} color="#FFFFFF" /> {params.cardItem.point} </Heading>
-                            <Subtitle style={{ color: '#fff', fontSize: 18, paddingLeft: 12 }}>Balance via ***** 1234 5678 9012</Subtitle>
+                            <Heading style={{ color: '#fff', fontSize: 42, paddingTop: 20 }}> <MaterialIcons name="loyalty" size={26} color="#FFFFFF" /> {params.cardItem[0].point} </Heading>
+                            <Subtitle style={{ color: '#fff', fontSize: 18, paddingLeft: 12 }}>Balance via {params.cardItem[0].cardNumber}</Subtitle>
                         </View>
                     </Row>
                 </View>
@@ -165,7 +202,7 @@ class MyLoyaltyCardDetail extends Component {
                         () => <Icon name="logo-buffer" style={styles.actionButtonIcon} />
                     }>
                     <ActionButton.Item buttonColor='#34385d' title="Trasfer Point"
-                        onPress={() => navigate('VendorPartnerList') }>
+                        onPress={() => navigate('VendorPartnerList', { fromVendorId: params.cardItem[0].detail._id })}>
                         <MaterialIcons name="compare-arrows" size={22} color="#e5d464" />
                     </ActionButton.Item>
                 </ActionButton>

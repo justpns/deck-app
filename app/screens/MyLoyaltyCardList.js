@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+
 import {
   StatusBar,
   StyleSheet,
@@ -8,9 +9,10 @@ import {
   FlatList,
   Text,
   Alert,
+  AsyncStorage,
 } from 'react-native';
 
-import { MaterialIndicator  } from 'react-native-indicators';
+import { MaterialIndicator } from 'react-native-indicators';
 
 import axios from 'axios';
 
@@ -18,7 +20,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ActionButton from 'react-native-action-button';
 
 import { Container } from '../components/Container';
-import { getUserCitizen } from '../auth/auth';
+import { onSignOut } from '../auth/auth';
+
 import MyCardDetail from '../components/MyCard/MyCardDetail';
 
 const styles = StyleSheet.create({
@@ -64,7 +67,8 @@ class MyLoyaltyCardList extends Component {
       //   </TouchableOpacity>
       // ),
       headerRight: (
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => onSignOut().then(() => navigation.navigate('SignedOut'))}>
           <MaterialIcons name="add-to-photos" size={32} color="#e5d464" />
         </TouchableOpacity>
       ),
@@ -85,30 +89,10 @@ class MyLoyaltyCardList extends Component {
     this.state = {
       columns: 2,
       selectedIndex: 0,
-      cards: [
-        {
-          id: '1',
-          name: 'AirAsia Big Card',
-          img:
-            'http://traveldailynews.asia/uploads/images/AirAsia-BIG_x589.jpg',
-          point: '3000',
-        },
-        {
-          id: '2',
-          name: 'Tesco Club Card',
-          img:
-            'https://www.tescolotus.com/assets/theme2017/clubcard/img/point/points-03.jpg',
-          point: '2500',
-        },
-        {
-          id: '3',
-          name: 'PTT Blue Card',
-          img:
-            'https://www.pttbluecard.com/Content/Themes/pttbluecard/img/about-apply.jpg',
-          point: '500',
-        },
-      ],
+      cards: [],
       isFetching: false,
+      userId: '',
+      userCitizenId: '',
     };
 
     this.onRequestGetUserId = this.onRequestGetUserId.bind(this);
@@ -118,21 +102,29 @@ class MyLoyaltyCardList extends Component {
     this.onRequestGetUserId();
   }
 
+  // componentDidMount() {
+  //   this.onRequestGetUserId();
+  // }
+
   async onRequestGetUserId() {
-    const userCitizenId = getUserCitizen();
-    this.setState({
-      isFetching: true,
-    });
-    const URL = `${IP}/users/${userCitizenId}`;
-    await axios({
-      method: 'get',
-      url: URL,
-      responseType: 'json',
-    }).then((response) => {
-      if (response.status === 200) {
-        this.onRequestGetUserCards(response.data);
-      }
-    });
+    AsyncStorage.getItem('user-citizen').then((value) => {
+      this.setState({ userCitizenId: value, isFetching: true });
+      // Alert.alert(this.state.userCitizenId);
+      const URL = `${IP}/users/${this.state.userCitizenId}`;
+      // Alert.alert(URL);
+      axios({
+        method: 'get',
+        url: URL,
+      }).then((response) => {
+        if (response.status === 200) {
+          this.setState({
+            userId: response.data,
+          });
+          // Alert.alert(response.data);
+          this.onRequestGetUserCards(response.data);
+        }
+      });
+    }).done();
   }
 
   async onRequestGetUserCards(userId) {
@@ -140,7 +132,6 @@ class MyLoyaltyCardList extends Component {
     await axios({
       method: 'get',
       url: URL,
-      responseType: 'json',
     }).then((response) => {
       if (response.status === 200) {
         this.setState({
@@ -156,7 +147,9 @@ class MyLoyaltyCardList extends Component {
     const { contentContainer } = styles;
     // const separatorStyle = StyleSheet.flatten(styles.separatorStyle);
 
-    const { cards, columns, isFetching } = this.state;
+    const {
+      cards, columns, isFetching, userId,
+    } = this.state;
 
     if (isFetching) {
       return (
@@ -192,7 +185,12 @@ class MyLoyaltyCardList extends Component {
               renderItem={({ item }) => (
                 <TouchableOpacity
                   onPress={
-                    () => navigate('LoyaltyCardDetail', { cardItem: item })
+                    () => {
+                      const paramsObj = [];
+                      paramsObj.push(item);
+                      paramsObj.push(userId);
+                      navigate('LoyaltyCardDetail', { cardItem: paramsObj });
+                    }
                   }>
                   <MyCardDetail card_detail={item} />
                 </TouchableOpacity>

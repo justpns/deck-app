@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   Alert,
+  AsyncStorage,
 } from 'react-native';
 
 import {
@@ -27,7 +28,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { TextField } from 'react-native-material-textfield';
 import { TextButton } from 'react-native-material-buttons';
 import { Container } from '../components/Container';
-import { onSignIn, saveUserCitizen } from '../auth/auth';
+import { onSignIn, saveUserCitizen, getUserCitizen } from '../auth/auth';
 
 const app_logo = require('../img/app_logo.png');
 
@@ -111,7 +112,7 @@ class SignIn extends Component {
         },
       }).then((response) => {
         if (response.status === 200) {
-          saveUserCitizen(response.data.citizenId);
+          AsyncStorage.setItem('user-citizen', response.data.citizenId.toString());
           onSignIn().then(() => navigate('SignedIn'));
         } else {
           Alert.alert('Invalid Username or Password');

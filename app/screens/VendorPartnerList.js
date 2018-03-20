@@ -4,25 +4,29 @@ import {
   ScrollView,
   StyleSheet,
   Dimensions,
+  Alert,
+  FlatList,
 } from 'react-native';
 
 import {
-  Tile,
-  Title,
   Row,
   Image,
   View,
   Subtitle,
   Caption,
-  Text,
-  Heading,
+
   Divider,
 } from '@shoutem/ui';
 
+import axios from 'axios';
+import { MaterialIndicator } from 'react-native-indicators';
+
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Container } from '../components/Container';
+import VendorPartnerDetail from '../components/VendorPartner/VendorPartnerDetail';
 
 const screen = Dimensions.get('window');
+const IP = 'http://52.230.25.97:3333';
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -39,49 +43,116 @@ const styles = StyleSheet.create({
 });
 
 class VendorPartnerList extends Component {
-    static navigationOptions = ({ navigation }) => {
-      const { params } = navigation.state;
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
 
-      return {
-        headerTitle: "Select a transfer's partner",
-        // headerRight: (
-        //     <TouchableOpacity>
-        //         <MaterialIcons name="receipt" size={26} color="#FFFFFF" />
-        //     </TouchableOpacity>
-        // ),
-      };
+    return {
+      headerTitle: "Select a transfer's partner",
+      // headerRight: (
+      //     <TouchableOpacity>
+      //         <MaterialIcons name="receipt" size={26} color="#FFFFFF" />
+      //     </TouchableOpacity>
+      // ),
+    };
+  };
+
+  constructor() {
+    super();
+
+    this.state = {
+      cardVendorPartners: [],
+      isFetching: false,
     };
 
-    render() {
-      const { navigate } = this.props.navigation;
-      const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
-      const contentContainer = StyleSheet.flatten(styles.contentContainer);
+    this.onRequestGetCardVendorPartner = this.onRequestGetCardVendorPartner.bind(this);
+    this.renderCardVendorPartners = this.renderCardVendorPartners.bind(this);
+  }
 
+  componentWillMount() {
+    this.onRequestGetCardVendorPartner();
+  }
+
+  async onRequestGetCardVendorPartner() {
+    const { params } = this.props.navigation.state;
+    this.setState({
+      isFetching: true,
+    });
+    const URL = `${IP}/partners/${params.fromVendorId}`;
+    await axios({
+      method: 'get',
+      url: URL,
+    }).then((response) => {
+      if (response.status === 200) {
+        this.setState({
+          isFetching: false,
+          cardVendorPartners: response.data,
+        });
+      }
+    });
+  }
+
+  renderCardVendorPartners() {
+    const { cardVendorPartners } = this.state;
+    const cardVendorPartnerObj = [];
+    for (let i = 0; i < cardVendorPartners.length; ++i) {
+      cardVendorPartnerObj.push(
+        <TouchableOpacity
+          onPress={
+            () => navigate('Transfer')
+          }>>
+          <Row>
+            <Image
+              styleName="small rounded-corners"
+              source={{ uri: cardVendorPartners[i].toVendorId.img }}
+            />
+            <View styleName="vertical stretch space-between">
+              <Subtitle>{cardVendorPartners[i].toVendorId.name}</Subtitle>
+              <Caption>Rate {cardVendorPartners[i].fromRate} : {cardVendorPartners[i].toRate}</Caption>
+              <Caption>Max {cardVendorPartners[i].maximum} : Min {cardVendorPartners[i].minimum}</Caption>
+            </View>
+          </Row></TouchableOpacity>);
+    }
+
+    return cardVendorPartnerObj;
+  }
+
+  render() {
+    const { navigate } = this.props.navigation;
+    const { cardVendorPartners, isFetching } = this.state;
+    const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
+    const contentContainer = StyleSheet.flatten(styles.contentContainer);
+
+    if (isFetching) {
       return (
-            <Container>
-                <ScrollView style={contentContainer}>
-                    <TouchableOpacity
-                        onPress={
-                            () => navigate('Transfer')
-                        }>
-                        <Row>
-                            <Image
-                                styleName="small rounded-corners"
-                                source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-3.png' }}
-                            />
-                            <View styleName="vertical stretch">
-                                <Subtitle>Wilco Cover David Bowie&#39;s "Space Oddity"</Subtitle>
-                                <Caption>June 21  ->  20:00</Caption>
-                            </View>
-                            <MaterialIcons name="navigate-next" size={18} color="#000" />
-                        </Row>
-                        <Divider styleName="line" />
-                    </TouchableOpacity>
-                </ScrollView>
-
-            </Container>
+        <Container>
+          <View style={{ flex: 0.65, justifyContent: 'center', alignItems: 'center' }}>
+            <MaterialIndicator color='#e5d464' />
+          </View>
+        </Container>
       );
     }
+
+    return (
+      <Container>
+        <FlatList
+          numColumns={1}
+          data={cardVendorPartners}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={
+                () => {
+                  const paramsObj = [];
+                  navigate('Transfer');
+                }
+              }>
+              <VendorPartnerDetail vendorPartner={item} />
+            </TouchableOpacity>
+          )}
+          keyExtractor={item => item._id}
+        />
+      </Container>
+    );
+  }
 }
 
 export default VendorPartnerList;
