@@ -25,7 +25,7 @@ const screen = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   contentContainer: {
-    flex: 0.90,
+    flex: 0.92,
     paddingTop: 16,
     marginBottom: 0,
     paddingHorizontal: 16,
@@ -69,6 +69,7 @@ class TransferConfirmation extends Component {
   };
 
   render() {
+    const { navigate } = this.props.navigation;
     const contentContainer = StyleSheet.flatten(styles.contentContainer);
     const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
     const cardViewRowItem = StyleSheet.flatten(styles.cardViewRowItem);
@@ -78,7 +79,7 @@ class TransferConfirmation extends Component {
     return (
       <Container>
         <ScrollView style={contentContainer}>
-          <Tile styleName="text-centric" style={{marginBottom: 8, backgroundColor: 'transparent'}}>
+          <Tile styleName="text-centric" style={{ marginBottom: 8, backgroundColor: 'transparent' }}>
             <Title styleName="sm-gutter-bottom">MIKE PATTON TEAMING WITH JOHN KAADA FOR COLLAB ALBUM BACTERIA CULT</Title>
             <Caption>Sophia Jackson        2 hours ago</Caption>
           </Tile>
@@ -124,13 +125,16 @@ class TransferConfirmation extends Component {
           </Row>
 
         </ScrollView>
-        <View style={{ flex: 0.10 }}>
+        <View style={{ flex: 0.08 }}>
           <RaisedTextButton style={{ flex: 1 }}
             rippleDuration={600}
             rippleOpacity={0.54}
             title='Continue'
             color='#9DA2FB'
-            titleColor='white' />
+            titleColor='white'
+            onPress={
+              () => navigate('MyCard')
+            } />
         </View>
       </Container>
     );
