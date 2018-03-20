@@ -8,6 +8,7 @@ import MyLoyaltyCardList from '../screens/MyLoyaltyCardList';
 import MyLoyaltyCardDetail from '../screens/MyLoyaltyCardDetail';
 import VendorPartnerList from '../screens/VendorPartnerList';
 import Transfer from '../screens/Transfer';
+import TransferConfirmation from '../screens/TransferConfirmation';
 import MyProfile from '../screens/MyProfile';
 
 const screen = Dimensions.get('window');
@@ -66,6 +67,23 @@ const LoyaltyCardStack = StackNavigator({
   },
   Transfer: {
     screen: Transfer,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#9DA2FB',
+        elevation: 0,
+        height: screen.height / 6,
+      },
+      headerTintColor: '#FFFFFF',
+      headerTitleStyle: {
+        fontWeight: '300',
+        fontFamily: 'Arial',
+        fontSize: 22,
+      },
+      tabBarVisible: false,
+    }),
+  },
+  TransferConfirmation: {
+    screen: TransferConfirmation,
     navigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: '#9DA2FB',

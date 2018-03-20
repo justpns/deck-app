@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import {
-  TouchableOpacity,
   ScrollView,
   StyleSheet,
   Dimensions,
-  Text,
 } from 'react-native';
 
 import {
@@ -12,13 +10,12 @@ import {
   View,
   Subtitle,
   Heading,
-  Divider,
 } from '@shoutem/ui';
 
 
 import { TextField } from 'react-native-material-textfield';
 import Slider from 'react-native-slider';
-import { TextButton, RaisedTextButton  } from 'react-native-material-buttons';
+import { RaisedTextButton } from 'react-native-material-buttons';
 import { Container } from '../components/Container';
 
 const thumbImg = require('../img/thumb.png');
@@ -90,10 +87,10 @@ class Transfer extends Component {
         minimumTransferValue: 1,
         maximumTransferValue: 100,
       };
-
     }
-    
+
     render() {
+      const { navigate } = this.props.navigation;
       const { transferValue, minimumTransferValue, maximumTransferValue } = this.state;
       const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
       const contentContainer = StyleSheet.flatten(styles.contentContainer);
@@ -140,13 +137,21 @@ class Transfer extends Component {
                         thumbStyle={customStyles9.thumb}
                         thumbTintColor='#9DA2FB'
                         style={{ marginTop: 5 }}
-                        onValueChange={(transferValue) => this.setState({transferValue})}
+                        onValueChange={transferValue => this.setState({ transferValue })}
                     />
-                    
+
                     </View>
                 </ScrollView>
                 <View style={{ flex: 0.10 }}>
-                    <RaisedTextButton style={{flex: 1}} rippleDuration={600} rippleOpacity={0.54} title='Continue' color='#9DA2FB' titleColor='white' />
+                    <RaisedTextButton style={{ flex: 1 }}
+                    rippleDuration={600}
+                    rippleOpacity={0.54}
+                    title='REQUEST TO TRANSFER'
+                    color='#9DA2FB'
+                    titleColor='white'
+                    onPress={
+                        () => navigate('TransferConfirmation')
+                    } />
                 </View>
             </Container>
       );
