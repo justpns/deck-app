@@ -14,7 +14,7 @@ import {
   Text,
   Title,
   Tile,
-  Caption
+  Caption,
 } from '@shoutem/ui';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';

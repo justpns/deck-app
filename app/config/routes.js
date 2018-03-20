@@ -9,11 +9,24 @@ import MyLoyaltyCardDetail from '../screens/MyLoyaltyCardDetail';
 import VendorPartnerList from '../screens/VendorPartnerList';
 import Transfer from '../screens/Transfer';
 import TransferConfirmation from '../screens/TransferConfirmation';
+
+import SignIn from '../screens/SignIn';
+
 import MyProfile from '../screens/MyProfile';
+
 
 const screen = Dimensions.get('window');
 
-const LoyaltyCardStack = StackNavigator({
+export const SignedOut = StackNavigator({
+  SignIn: {
+    screen: SignIn,
+    navigationOptions: {
+      title: 'Sign In',
+    },
+  },
+});
+
+export const LoyaltyCardStack = StackNavigator({
   LoyaltyCardList: {
     screen: MyLoyaltyCardList,
     navigationOptions: ({ navigation }) => ({
@@ -153,4 +166,25 @@ const MainNavigator = TabNavigator(
   },
 );
 
-export default LoyaltyCardStack;
+export const createRootNavigator = (signedIn = false) => StackNavigator(
+  {
+    SignedIn: {
+      screen: LoyaltyCardStack,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
+    SignedOut: {
+      screen: SignedOut,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
+  },
+  {
+    headerMode: 'none',
+    mode: 'modal',
+    initialRouteName: signedIn ? 'SignedIn' : 'SignedOut',
+  },
+);
+
