@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   cardViewRow: {
     backgroundColor: 'transparent',
-    height: 100,
+
   },
   pointBalanceContainer: {
     flex: 0.35,
@@ -136,11 +136,11 @@ class MyLoyaltyCardDetail extends Component {
       const topRadius = StyleSheet.flatten(styles.topRadius);
       return (
             <Container>
-                <View styleName="vertical">
+                <View styleName="vertical" style={{flex: 0.40}}>
                     <Row style={cardViewRow}>
                         <View styleName="vertical stretch">
-                            <Heading style={{ color: '#fff', fontSize: 42, paddingTop: 20 }}> <MaterialIcons name="loyalty" size={26} color="#FFFFFF" /> {params.cardItem[0].point} </Heading>
-                            <Subtitle style={{ color: '#fff', fontSize: 18, paddingLeft: 12 }}>Balance via {params.cardItem[0].cardNumber}</Subtitle>
+                            <Heading style={{ color: '#fff', fontSize: 32, paddingTop: 20 }}> <MaterialIcons name="loyalty" size={26} color="#FFFFFF" /> {params.cardItem[0].point} </Heading>
+                            <Subtitle style={{ color: '#fff', fontSize: 14, paddingLeft: 12 }}>Balance via {params.cardItem[0].cardNumber}</Subtitle>
                         </View>
                     </Row>
                 </View>

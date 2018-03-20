@@ -40,7 +40,7 @@ export const LoyaltyCardStack = StackNavigator({
       headerTitleStyle: {
         fontWeight: '300',
         fontFamily: 'Arial',
-        fontSize: 20,
+        fontSize: 18,
       },
     }),
   },
@@ -56,7 +56,7 @@ export const LoyaltyCardStack = StackNavigator({
       headerTitleStyle: {
         fontWeight: '300',
         fontFamily: 'Arial',
-        fontSize: 22,
+        fontSize: 18,
       },
       tabBarVisible: false,
     }),
@@ -73,7 +73,7 @@ export const LoyaltyCardStack = StackNavigator({
       headerTitleStyle: {
         fontWeight: '300',
         fontFamily: 'Arial',
-        fontSize: 22,
+        fontSize: 18,
       },
       tabBarVisible: false,
     }),
@@ -90,7 +90,7 @@ export const LoyaltyCardStack = StackNavigator({
       headerTitleStyle: {
         fontWeight: '300',
         fontFamily: 'Arial',
-        fontSize: 22,
+        fontSize: 18,
       },
       tabBarVisible: false,
     }),
@@ -107,7 +107,7 @@ export const LoyaltyCardStack = StackNavigator({
       headerTitleStyle: {
         fontWeight: '300',
         fontFamily: 'Arial',
-        fontSize: 22,
+        fontSize: 18,
       },
       tabBarVisible: false,
     }),

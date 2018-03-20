@@ -102,7 +102,7 @@ class Transfer extends Component {
                 <ScrollView style={contentContainer}>
                     <Row style={cardViewRow}>
                         <View styleName="vertical" style={cardViewRowItem}>
-                            <Heading>AirAsia</Heading>
+                            <Heading style={{ fontSize: 18 }}>AirAsia</Heading>
                             <Subtitle style={{ color: '#BFBFBF', fontSize: 14 }}>***** 1234 5678 9012</Subtitle>
                             <Subtitle style={{ color: '#34385d', fontSize: 15 }}>You transfer point to</Subtitle>
                         </View>

@@ -21,7 +21,7 @@ const styles = EStyleSheet.create({
     marginVertical: 8,
   },
   pointLabel: {
-    fontSize: 16,
+    fontSize: 12,
     marginHorizontal: 8,
     marginVertical: 8,
   },
