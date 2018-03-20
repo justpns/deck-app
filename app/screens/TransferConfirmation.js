@@ -130,7 +130,7 @@ class TransferConfirmation extends Component {
             rippleDuration={600}
             rippleOpacity={0.54}
             title='Continue'
-            color='#9DA2FB'
+            color='#34385d'
             titleColor='white'
             onPress={
               () => navigate('MyCard')

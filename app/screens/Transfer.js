@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
   },
   inputAmountTitleText: {
-    color: '#9DA2FB',
+    color: '#34385d',
   },
 });
 
@@ -104,13 +104,13 @@ class Transfer extends Component {
                         <View styleName="vertical" style={cardViewRowItem}>
                             <Heading>AirAsia</Heading>
                             <Subtitle style={{ color: '#BFBFBF', fontSize: 14 }}>***** 1234 5678 9012</Subtitle>
-                            <Subtitle style={{ color: '#9DA2FB', fontSize: 15 }}>You transfer point to</Subtitle>
+                            <Subtitle style={{ color: '#34385d', fontSize: 15 }}>You transfer point to</Subtitle>
                         </View>
                     </Row>
                     <Row style={cardViewRow}>
                         <View styleName="vertical" style={cardViewRowItem}>
                             <Heading>2 : 1</Heading>
-                            <Subtitle style={{ color: '#9DA2FB', fontSize: 16 }}>With rates</Subtitle>
+                            <Subtitle style={{ color: '#34385d', fontSize: 16 }}>With rates</Subtitle>
                         </View>
                     </Row>
                     <View style={cardViewSpecifyAmount}>
@@ -128,14 +128,14 @@ class Transfer extends Component {
                         onChangeText={phone => this.setState({ phone })}
                     />
                     <Slider
-                        minimumTrackTintColor='#9DA2FB'
+                        minimumTrackTintColor='#34385d'
                         value={parseInt(transferValue)}
                         step={1}
                         minimumValue={minimumTransferValue}
                         maximumValue={maximumTransferValue}
                         thumbImage={thumbImg}
                         thumbStyle={customStyles9.thumb}
-                        thumbTintColor='#9DA2FB'
+                        thumbTintColor='#34385d'
                         style={{ marginTop: 5 }}
                         onValueChange={transferValue => this.setState({ transferValue })}
                     />
@@ -147,7 +147,7 @@ class Transfer extends Component {
                     rippleDuration={600}
                     rippleOpacity={0.54}
                     title='REQUEST TO TRANSFER'
-                    color='#9DA2FB'
+                    color='#34385d'
                     titleColor='white'
                     onPress={
                         () => navigate('TransferConfirmation')

@@ -160,13 +160,13 @@ class MyLoyaltyCardDetail extends Component {
                 </ScrollView>
 
                 <ActionButton
-                    buttonColor="#9DA2FB"
+                    buttonColor="#34385d"
                     renderIcon={
                         () => <Icon name="logo-buffer" style={styles.actionButtonIcon} />
                     }>
-                    <ActionButton.Item buttonColor='#9DA2FB' title="Trasfer Point"
+                    <ActionButton.Item buttonColor='#34385d' title="Trasfer Point"
                         onPress={() => navigate('VendorPartnerList') }>
-                        <MaterialIcons name="compare-arrows" size={22} color="#FFFFFF" />
+                        <MaterialIcons name="compare-arrows" size={22} color="#e5d464" />
                     </ActionButton.Item>
                 </ActionButton>
             </Container>

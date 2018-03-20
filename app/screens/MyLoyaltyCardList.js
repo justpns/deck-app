@@ -12,6 +12,7 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import ActionButton from 'react-native-action-button';
 
 import { Container } from '../components/Container';
 import MyCardDetail from '../components/MyCard/MyCardDetail';
@@ -27,9 +28,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   actionButtonIcon: {
-    fontSize: 20,
+    fontSize: 22,
     height: 22,
-    color: 'white',
+    color: '#34385d',
   },
   backgroundImage: {
     flex: 1,
@@ -38,11 +39,11 @@ const styles = StyleSheet.create({
 });
 
 const CustomHeaderTitle = props => (
-    <View>
-      <Text style={ {
- fontSize: 32, color: '#FFFFFF', fontWeight: '700', marginBottom: 15,
-} }>My cards</Text>
-    </View>
+  <View>
+    <Text style={{
+      fontSize: 32, color: '#e5d464', fontWeight: '700', marginBottom: 15,
+    }}>My cards</Text>
+  </View>
 );
 
 class MyLoyaltyCardList extends Component {
@@ -50,7 +51,7 @@ class MyLoyaltyCardList extends Component {
     const { params } = navigation.state;
 
     return {
-      headerTitle: <CustomHeaderTitle/>,
+      headerTitle: <CustomHeaderTitle />,
       // headerLeft: (
       //   <TouchableOpacity>
       //     <MaterialIcons name="face" size={30} color="#C8CBFA" />
@@ -58,7 +59,7 @@ class MyLoyaltyCardList extends Component {
       // ),
       headerRight: (
         <TouchableOpacity>
-          <MaterialIcons name="add" size={32} color="#FFFFFF" />
+          <MaterialIcons name="face" size={32} color="#e5d464" />
         </TouchableOpacity>
       ),
     };
@@ -117,7 +118,7 @@ class MyLoyaltyCardList extends Component {
 
     return (
       <Container backgroundColor={this.props.primaryColor}>
-        <StatusBar backgroundColor="#9DA2FB" barStyle="light-content" />
+        <StatusBar backgroundColor="#34385d" barStyle="light-content" />
         <View style={contentContainer}>
           <FlatList
             numColumns={columns}
@@ -134,6 +135,12 @@ class MyLoyaltyCardList extends Component {
           />
 
         </View>
+        <ActionButton
+          buttonColor="#e5d464"
+          renderIcon={
+            () => <MaterialIcons name="add-to-photos" style={styles.actionButtonIcon} />
+          }>
+        </ActionButton>
       </Container>
     );
   }
