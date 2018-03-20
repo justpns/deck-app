@@ -7,14 +7,18 @@ import {
   TouchableOpacity,
   FlatList,
   Text,
+  Alert,
 } from 'react-native';
 
-import EStyleSheet from 'react-native-extended-stylesheet';
+import { MaterialIndicator  } from 'react-native-indicators';
+
+import axios from 'axios';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ActionButton from 'react-native-action-button';
 
 import { Container } from '../components/Container';
+import { getUserCitizen } from '../auth/auth';
 import MyCardDetail from '../components/MyCard/MyCardDetail';
 
 const styles = StyleSheet.create({
@@ -46,6 +50,8 @@ const CustomHeaderTitle = props => (
   </View>
 );
 
+const IP = 'http://52.230.25.97:3333';
+
 class MyLoyaltyCardList extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
@@ -59,7 +65,7 @@ class MyLoyaltyCardList extends Component {
       // ),
       headerRight: (
         <TouchableOpacity>
-          <MaterialIcons name="face" size={32} color="#e5d464" />
+          <MaterialIcons name="add-to-photos" size={32} color="#e5d464" />
         </TouchableOpacity>
       ),
     };
@@ -73,8 +79,8 @@ class MyLoyaltyCardList extends Component {
     alertWithType: PropTypes.func,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       columns: 2,
@@ -102,11 +108,47 @@ class MyLoyaltyCardList extends Component {
           point: '500',
         },
       ],
+      isFetching: false,
     };
+
+    this.onRequestGetUserId = this.onRequestGetUserId.bind(this);
   }
 
-  handleIndexChange = (index) => {
-    this.setState({ selectedIndex: index });
+  componentWillMount() {
+    this.onRequestGetUserId();
+  }
+
+  async onRequestGetUserId() {
+    const userCitizenId = getUserCitizen();
+    this.setState({
+      isFetching: true,
+    });
+    const URL = `${IP}/users/${userCitizenId}`;
+    await axios({
+      method: 'get',
+      url: URL,
+      responseType: 'json',
+    }).then((response) => {
+      if (response.status === 200) {
+        this.onRequestGetUserCards(response.data);
+      }
+    });
+  }
+
+  async onRequestGetUserCards(userId) {
+    const URL = `${IP}/cards/${userId}`;
+    await axios({
+      method: 'get',
+      url: URL,
+      responseType: 'json',
+    }).then((response) => {
+      if (response.status === 200) {
+        this.setState({
+          cards: response.data,
+          isFetching: false,
+        });
+      }
+    });
   }
 
   render() {
@@ -114,34 +156,58 @@ class MyLoyaltyCardList extends Component {
     const { contentContainer } = styles;
     // const separatorStyle = StyleSheet.flatten(styles.separatorStyle);
 
-    const { cards, columns } = this.state;
+    const { cards, columns, isFetching } = this.state;
+
+    if (isFetching) {
+      return (
+        <Container backgroundColor={this.props.primaryColor}>
+          <StatusBar backgroundColor="#34385d" barStyle="light-content" />
+          <View style={{ flex: 0.65, justifyContent: 'center', alignItems: 'center' }}>
+            <MaterialIndicator color='#e5d464' />
+          </View>
+        </Container>
+      );
+    }
+
+    // if (cards.length === 0) {
+    //   return (
+    //     <Container backgroundColor={this.props.primaryColor}>
+    //       <StatusBar backgroundColor="#34385d" barStyle="light-content" />
+    //       <View style={{ flex: 0.65, justifyContent: 'center', alignItems: 'center' }}>
+    //           <Text style={{ color: '#e5d464', fontSize: 16, opacity: 0.6 }}>
+    //             You have no cards.
+    //           </Text>
+    //       </View>
+    //     </Container>
+    //   );
+    // }
 
     return (
-      <Container backgroundColor={this.props.primaryColor}>
-        <StatusBar backgroundColor="#34385d" barStyle="light-content" />
-        <View style={contentContainer}>
-          <FlatList
-            numColumns={columns}
-            data={cards}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={
-                  () => navigate('LoyaltyCardDetail', { cardItem: item })
-                }>
-                <MyCardDetail card_detail={item} />
-              </TouchableOpacity>
-            )}
-            keyExtractor={item => item.id}
-          />
+        <Container backgroundColor={this.props.primaryColor}>
+          <StatusBar backgroundColor="#34385d" barStyle="light-content" />
+          <View style={contentContainer}>
+            <FlatList
+              numColumns={columns}
+              data={cards}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={
+                    () => navigate('LoyaltyCardDetail', { cardItem: item })
+                  }>
+                  <MyCardDetail card_detail={item} />
+                </TouchableOpacity>
+              )}
+              keyExtractor={item => item.id}
+            />
 
-        </View>
-        <ActionButton
-          buttonColor="#e5d464"
-          renderIcon={
-            () => <MaterialIcons name="add-to-photos" style={styles.actionButtonIcon} />
-          }>
-        </ActionButton>
-      </Container>
+          </View>
+          {/* <ActionButton
+            buttonColor="#e5d464"
+            renderIcon={
+              () => <MaterialIcons name="add-to-photos" style={styles.actionButtonIcon} />
+            }>
+          </ActionButton> */}
+        </Container>
     );
   }
 }

@@ -27,7 +27,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { TextField } from 'react-native-material-textfield';
 import { TextButton } from 'react-native-material-buttons';
 import { Container } from '../components/Container';
-import { onSignIn } from '../auth/auth';
+import { onSignIn, saveUserCitizen } from '../auth/auth';
 
 const app_logo = require('../img/app_logo.png');
 
@@ -111,7 +111,8 @@ class SignIn extends Component {
         },
       }).then((response) => {
         if (response.status === 200) {
-          onSignIn().then(() => navigate('SignedIn', { userData: response.data }));
+          saveUserCitizen(response.data.citizenId);
+          onSignIn().then(() => navigate('SignedIn'));
         } else {
           Alert.alert('Invalid Username or Password');
         }

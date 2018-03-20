@@ -166,25 +166,26 @@ const MainNavigator = TabNavigator(
   },
 );
 
-export const createRootNavigator = (signedIn = false) => StackNavigator(
-  {
-    SignedIn: {
-      screen: LoyaltyCardStack,
-      navigationOptions: {
-        gesturesEnabled: false,
+export const createRootNavigator = (signedIn = false) => {
+  return StackNavigator(
+    {
+      SignedIn: {
+        screen: LoyaltyCardStack,
+        navigationOptions: {
+          gesturesEnabled: false
+        }
       },
+      SignedOut: {
+        screen: SignedOut,
+        navigationOptions: {
+          gesturesEnabled: false
+        }
+      }
     },
-    SignedOut: {
-      screen: SignedOut,
-      navigationOptions: {
-        gesturesEnabled: false,
-      },
-    },
-  },
-  {
-    headerMode: 'none',
-    mode: 'modal',
-    initialRouteName: signedIn ? 'SignedIn' : 'SignedOut',
-  },
-);
-
+    {
+      headerMode: "none",
+      mode: "modal",
+      initialRouteName: signedIn ? "SignedIn" : "SignedOut"
+    }
+  );
+};
