@@ -54,7 +54,7 @@ const MyCardDetail = (props) => {
     <MyCard>
       <View style={wrapper}>
  
-        <Image
+         <Image
           key={props.card_detail.cardId}
           style={backgroundImage}
           source={{ uri: props.card_detail.img }}
