@@ -30,11 +30,11 @@ const screen = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   contentContainer: {
-    flex: 1,
+    flex: 0.25,
     paddingHorizontal: 16,
     marginBottom: 0,
     flexDirection: 'column',
-    backgroundColor: '#FFF',
+    backgroundColor: 'transparent',
     height: screen.height,
   },
   cardViewRow: {
@@ -104,6 +104,9 @@ class MyLoyaltyCardDetail extends Component {
             isFetchingHistory: false,
             cardTransferHistory: response.data,
           });
+          console.log(response.data);
+          console.log(params.cardItem[0].userId);
+          console.log(params.cardItem[0].cardId);
         }
       });
     }
@@ -136,7 +139,7 @@ class MyLoyaltyCardDetail extends Component {
       const topRadius = StyleSheet.flatten(styles.topRadius);
       return (
             <Container>
-                <View styleName="vertical" style={{flex: 0.40}}>
+                <View styleName="vertical" style={{flex: 0.50}}>
                     <Row style={cardViewRow}>
                         <View styleName="vertical stretch">
                             <Heading style={{ color: '#fff', fontSize: 32, paddingTop: 20 }}> <MaterialIcons name="loyalty" size={26} color="#FFFFFF" /> {params.cardItem[0].point} </Heading>
@@ -144,14 +147,8 @@ class MyLoyaltyCardDetail extends Component {
                         </View>
                     </Row>
                 </View>
-                <View styleName="vertical stretch space-between" style={pointBalanceContainer}>
-                    <Tile styleName="text-centric" style={topRadius}>
-                        <Heading style={{ fontSize: 20, paddingVertical: 5 }}>Transfer History</Heading>
-                        <Divider styleName="line" />
-                    </Tile>
-                </View>
                 <ScrollView style={contentContainer}>
-                    <Row>
+                    <Row style={{ marginBottom: 8 }}>
                         <Image
                             styleName="small rounded-corners"
                             source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-3.png' }}
@@ -162,7 +159,7 @@ class MyLoyaltyCardDetail extends Component {
                         </View>
                     </Row>
 
-                    <Row>
+                    <Row style={{ marginBottom: 8 }}>
                         <Image
                             styleName="small rounded-corners"
                             source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-3.png' }}
@@ -173,7 +170,7 @@ class MyLoyaltyCardDetail extends Component {
                         </View>
                     </Row>
 
-                    <Row>
+                    <Row style={{ marginBottom: 8 }}>
                         <Image
                             styleName="small rounded-corners"
                             source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-3.png' }}
@@ -184,7 +181,7 @@ class MyLoyaltyCardDetail extends Component {
                         </View>
                     </Row>
 
-                    <Row>
+                    <Row style={{ marginBottom: 8 }}>
                         <Image
                             styleName="small rounded-corners"
                             source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-3.png' }}
@@ -196,15 +193,15 @@ class MyLoyaltyCardDetail extends Component {
                     </Row>
                 </ScrollView>
 
+
                 <ActionButton
                     buttonColor="#34385d"
                     renderIcon={
-                        () => <Icon name="logo-buffer" style={styles.actionButtonIcon} />
+                        () => <MaterialIcons name="compare-arrows"  style={styles.actionButtonIcon} />
+                    }
+                    onPress={
+                        () => navigate('VendorPartnerList', { fromVendor: params.cardItem[0] })
                     }>
-                    <ActionButton.Item buttonColor='#34385d' title="Trasfer Point"
-                        onPress={() => navigate('VendorPartnerList', { fromVendorId: params.cardItem[0].detail._id })}>
-                        <MaterialIcons name="compare-arrows" size={22} color="#e5d464" />
-                    </ActionButton.Item>
                 </ActionButton>
             </Container>
       );

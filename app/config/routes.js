@@ -7,6 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MyLoyaltyCardList from '../screens/MyLoyaltyCardList';
 import MyLoyaltyCardDetail from '../screens/MyLoyaltyCardDetail';
 import VendorPartnerList from '../screens/VendorPartnerList';
+import VendorPartnerCardList from '../screens/VendorPartnerCardList';
 import Transfer from '../screens/Transfer';
 import TransferConfirmation from '../screens/TransferConfirmation';
 
@@ -63,6 +64,23 @@ export const LoyaltyCardStack = StackNavigator({
   },
   VendorPartnerList: {
     screen: VendorPartnerList,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#34385d',
+        elevation: 0,
+        height: screen.height / 6,
+      },
+      headerTintColor: '#e5d464',
+      headerTitleStyle: {
+        fontWeight: '300',
+        fontFamily: 'Arial',
+        fontSize: 18,
+      },
+      tabBarVisible: false,
+    }),
+  },
+  VendorPartnerCardList: {
+    screen: VendorPartnerCardList,
     navigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: '#34385d',

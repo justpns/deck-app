@@ -6,6 +6,7 @@ import {
   Dimensions,
   Alert,
   FlatList,
+  AsyncStorage
 } from 'react-native';
 
 import {
@@ -23,7 +24,7 @@ import { MaterialIndicator } from 'react-native-indicators';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Container } from '../components/Container';
-import VendorPartnerDetail from '../components/VendorPartner/VendorPartnerDetail';
+import MyCardDetail from '../components/MyCard/MyCardDetail';
 
 const screen = Dimensions.get('window');
 const IP = 'http://52.230.25.97:3333';
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class VendorPartnerList extends Component {
+class VendorPartnerCardList extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
 
@@ -56,70 +57,68 @@ class VendorPartnerList extends Component {
     };
   };
 
+  MyCardDetailObject(cardId, cardNumber,img, point, detail){
+      this.cardId = cardId;
+      this.cardNumber = cardNumber;
+      this.img = img;
+      this.point = point;
+      this.detail = detail;
+  }
+
   constructor() {
     super();
 
     this.state = {
-      cardVendorPartners: [],
+      myCardVendorPartners: [],
       isFetching: false,
     };
 
-    this.onRequestGetCardVendorPartner = this.onRequestGetCardVendorPartner.bind(this);
-    this.renderCardVendorPartners = this.renderCardVendorPartners.bind(this);
+    this.onRequestGetCardVendorPartnerInformation = this.onRequestGetCardVendorPartnerInformation.bind(this);
+
   }
 
   componentWillMount() {
-    this.onRequestGetCardVendorPartner();
+    this.onRequestGetCardVendorPartnerInformation();
   }
 
-  async onRequestGetCardVendorPartner() {
+  async onRequestGetCardVendorPartnerInformation() {
     const { params } = this.props.navigation.state;
-    this.setState({
-      isFetching: true,
-    });
-    const URL = `${IP}/partners/${params.fromVendor.detail._id}`;
-    await axios({
-      method: 'get',
-      url: URL,
-    }).then((response) => {
-      if (response.status === 200) {
-        this.setState({
-          isFetching: false,
-          cardVendorPartners: response.data,
-        });
-      }
-    });
-  }
+    AsyncStorage.getItem('user-id').then((value) => {
+      this.setState({ userId: value, isFetching: true });
+     
+      const URL = `${IP}/partners/${params.information[0].detail._id}/${params.information[1].toVendorId._id}/${this.state.userId}`;
+      axios({
+        method: 'get',
+        url: URL,
+      }).then((response) => {
+        if (response.status === 200) {
+          let tempArray = [];
 
-  renderCardVendorPartners() {
-    const { cardVendorPartners } = this.state;
-    const cardVendorPartnerObj = [];
-    for (let i = 0; i < cardVendorPartners.length; ++i) {
-      cardVendorPartnerObj.push(
-        <TouchableOpacity
-          onPress={
-            () => navigate('Transfer')
-          }>>
-          <Row>
-            <Image
-              styleName="small rounded-corners"
-              source={{ uri: cardVendorPartners[i].toVendorId.img }}
-            />
-            <View styleName="vertical stretch space-between">
-              <Subtitle>{cardVendorPartners[i].toVendorId.name}</Subtitle>
-              <Caption>Rate {cardVendorPartners[i].fromRate} : {cardVendorPartners[i].toRate}</Caption>
-              <Caption>Max {cardVendorPartners[i].maximum} : Min {cardVendorPartners[i].minimum}</Caption>
-            </View>
-          </Row></TouchableOpacity>);
-    }
+          response.data.map((value, index) => {
+            tempArray.push(new this.MyCardDetailObject(
+                value.cardId,
+                value.cardNumber,
+                value.detail.toVendorId.img,
+                value.point,
+                value.detail,
+            ));
+          });
 
-    return cardVendorPartnerObj;
+          this.setState({
+            myCardVendorPartners: tempArray,
+            isFetching: false,
+          });
+          
+        }
+      });
+    }).done();
+  
   }
 
   render() {
     const { params } = this.props.navigation.state;
     const { navigate } = this.props.navigation;
-    const { cardVendorPartners, isFetching } = this.state;
+    const { myCardVendorPartners, isFetching } = this.state;
     const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
     const contentContainer = StyleSheet.flatten(styles.contentContainer);
 
@@ -137,31 +136,34 @@ class VendorPartnerList extends Component {
       <Container>
         <View style={{ flex: 0.15 }}>
           <Divider styleName="section-header" style={{ backgroundColor: 'transparent', borderTopWidth: 0, borderBottomWidth: 0 }}>
-            <Caption style={{ color: '#e5d464' }}>Select a transfer's partner</Caption>
+            <Caption style={{ color: '#e5d464' }}>Select a card</Caption>
           </Divider>
         </View>
         <FlatList
           numColumns={1}
-          data={cardVendorPartners}
+          data={myCardVendorPartners}
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={
                 () => {
                   const paramsObj = [];
-                  paramsObj.push(params.fromVendor);
-                  paramsObj.push(item);
-                 
-                  navigate('VendorPartnerCardList', { information: paramsObj});
+                  paramsObj.push(params.information[0].cardId);
+                  paramsObj.push(params.information[0].point);
+                  paramsObj.push(item.cardId);
+                  paramsObj.push(item.detail);
+                  
+                  console.log(paramsObj);
+                  navigate('Transfer', { information: paramsObj});
                 }
               }>
-              <VendorPartnerDetail vendorPartner={item} />
+              <MyCardDetail card_detail={item} />
             </TouchableOpacity>
           )}
-          keyExtractor={item => item._id}
+          keyExtractor={item => item.cardId}
         />
       </Container>
     );
   }
 }
 
-export default VendorPartnerList;
+export default VendorPartnerCardList;

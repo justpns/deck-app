@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 const CustomHeaderTitle = props => (
   <View>
     <Text style={{
-      fontSize: 32, color: '#e5d464', fontWeight: '700', marginBottom: 15,
+      fontSize: 20, color: '#e5d464', fontWeight: '700', marginBottom: 15,
     }}>My cards</Text>
   </View>
 );
@@ -69,7 +69,7 @@ class MyLoyaltyCardList extends Component {
       headerRight: (
         <TouchableOpacity
           onPress={() => onSignOut().then(() => navigation.navigate('SignedOut'))}>
-          <MaterialIcons name="add-to-photos" size={32} color="#e5d464" />
+          <MaterialIcons name="add-to-photos" size={20} color="#e5d464" />
         </TouchableOpacity>
       ),
     };
@@ -96,6 +96,7 @@ class MyLoyaltyCardList extends Component {
     };
 
     this.onRequestGetUserId = this.onRequestGetUserId.bind(this);
+    this.onRefresh = this.onRefresh.bind(this);
   }
 
   componentWillMount() {
@@ -120,6 +121,7 @@ class MyLoyaltyCardList extends Component {
           this.setState({
             userId: response.data,
           });
+          AsyncStorage.setItem('user-id', response.data.toString());
           // Alert.alert(response.data);
           this.onRequestGetUserCards(response.data);
         }
@@ -129,11 +131,13 @@ class MyLoyaltyCardList extends Component {
 
   async onRequestGetUserCards(userId) {
     const URL = `${IP}/cards/${userId}`;
+
     await axios({
       method: 'get',
       url: URL,
     }).then((response) => {
       if (response.status === 200) {
+
         this.setState({
           cards: response.data,
           isFetching: false,
@@ -141,6 +145,11 @@ class MyLoyaltyCardList extends Component {
       }
     });
   }
+
+  onRefresh() {
+    this.setState({ isFetching: true }, function() { this.onRequestGetUserId() });
+  }
+
 
   render() {
     const { navigate } = this.props.navigation;
@@ -180,10 +189,13 @@ class MyLoyaltyCardList extends Component {
           <StatusBar backgroundColor="#34385d" barStyle="light-content" />
           <View style={contentContainer}>
             <FlatList
+              onRefresh={() => this.onRefresh()}
+              refreshing={this.state.isFetching}
               numColumns={columns}
               data={cards}
               renderItem={({ item }) => (
                 <TouchableOpacity
+                  key={item.cardId}
                   onPress={
                     () => {
                       const paramsObj = [];
@@ -195,7 +207,8 @@ class MyLoyaltyCardList extends Component {
                   <MyCardDetail card_detail={item} />
                 </TouchableOpacity>
               )}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item.cardId}
+              removeClippedSubviews={false}
             />
 
           </View>

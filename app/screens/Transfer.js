@@ -3,6 +3,8 @@ import {
   ScrollView,
   StyleSheet,
   Dimensions,
+  Alert,
+  AsyncStorage
 } from 'react-native';
 
 import {
@@ -11,6 +13,8 @@ import {
   Subtitle,
   Heading,
 } from '@shoutem/ui';
+
+import axios from 'axios';
 
 
 import { TextField } from 'react-native-material-textfield';
@@ -70,26 +74,59 @@ const customStyles9 = StyleSheet.create({
   },
 });
 
+const IP = 'http://52.230.25.97:3333';
 class Transfer extends Component {
     static navigationOptions = ({ navigation }) => {
       const { params } = navigation.state;
 
       return {
-        headerTitle: 'Specify your tranfer amount',
+        headerTitle: 'Transfer to',
       };
     };
 
     constructor() {
       super();
 
+      this.onParamSetup = this.onParamSetup.bind(this);
       this.state = {
         transferValue: '1',
-        minimumTransferValue: 1,
-        maximumTransferValue: 100,
+        isFetching: 'false',
+        minimumTransferValue: undefined,
+        maximumTransferValue: undefined,
+        transferInformation: undefined,
+        fromCardId: '',
+        toCardId: '',
+        fromPoint: undefined,
+        userId: '',
+        fromRate: undefined,
+        toRate: undefined
       };
     }
 
+    componentWillMount(){
+      // this.onRequestGetCardVendorPartnerInformation();
+      this.onParamSetup();
+    }
+
+    async onParamSetup(){
+      const { params } = this.props.navigation.state;
+
+      this.setState({
+        fromCardId: params.information[0],
+        fromPoint: params.information[1],
+        transferValue: params.information[3].fromRate,
+        toCardId: params.information[2],
+        minimumTransferValue: params.information[3].fromRate,
+        maximumTransferValue: params.information[1],
+        fromRate: params.information[3].fromRate,
+        toRate: params.information[3].toRate,
+      });
+    }
+
+    
+
     render() {
+      const { params } = this.props.navigation.state;
       const { navigate } = this.props.navigation;
       const { transferValue, minimumTransferValue, maximumTransferValue } = this.state;
       const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
@@ -102,14 +139,14 @@ class Transfer extends Component {
                 <ScrollView style={contentContainer}>
                     <Row style={cardViewRow}>
                         <View styleName="vertical" style={cardViewRowItem}>
-                            <Heading style={{ fontSize: 18 }}>AirAsia</Heading>
-                            <Subtitle style={{ color: '#BFBFBF', fontSize: 14 }}>***** 1234 5678 9012</Subtitle>
-                            <Subtitle style={{ color: '#34385d', fontSize: 15 }}>You transfer point to</Subtitle>
+                            <Heading style={{ fontSize: 18 }}>{params.information[3].toVendorId.name}</Heading>
+                           
+                            <Subtitle style={{ color: '#34385d', fontSize: 14 }}>You transfer point to</Subtitle>
                         </View>
                     </Row>
                     <Row style={cardViewRow}>
                         <View styleName="vertical" style={cardViewRowItem}>
-                            <Heading>2 : 1</Heading>
+                            <Heading>{params.information[3].fromRate} : {params.information[3].toRate}</Heading>
                             <Subtitle style={{ color: '#34385d', fontSize: 16 }}>With rates</Subtitle>
                         </View>
                     </Row>
@@ -130,9 +167,9 @@ class Transfer extends Component {
                     <Slider
                         minimumTrackTintColor='#34385d'
                         value={parseInt(transferValue)}
-                        step={1}
+                        step={params.information[3].fromRate}
                         minimumValue={minimumTransferValue}
-                        maximumValue={maximumTransferValue}
+                        maximumValue={parseInt(maximumTransferValue / params.information[3].fromRate) *params.information[3].fromRate}
                         thumbImage={thumbImg}
                         thumbStyle={customStyles9.thumb}
                         thumbTintColor='#34385d'
@@ -150,7 +187,14 @@ class Transfer extends Component {
                     color='#34385d'
                     titleColor='white'
                     onPress={
-                        () => navigate('TransferConfirmation')
+                        () => {
+                          let transferResultObject = [];
+                          transferResultObject.push(params.information[3]);
+                          transferResultObject.push(transferValue);
+                          transferResultObject.push(params.information[0]);
+                          transferResultObject.push(params.information[2]);
+                          navigate('TransferConfirmation', { transferResultObject: transferResultObject })
+                        }
                     } />
                 </View>
             </Container>

@@ -3,6 +3,7 @@ import {
   ScrollView,
   StyleSheet,
   Dimensions,
+  AsyncStorage,
 } from 'react-native';
 
 import {
@@ -17,12 +18,17 @@ import {
   Caption,
 } from '@shoutem/ui';
 
+import { NavigationActions } from 'react-navigation';
+
+import axios from 'axios';
+
+
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { RaisedTextButton } from 'react-native-material-buttons';
 import { Container } from '../components/Container';
 
 const screen = Dimensions.get('window');
-
+const IP = 'http://52.230.25.97:3333';
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 0.92,
@@ -68,7 +74,56 @@ class TransferConfirmation extends Component {
     };
   };
 
+  constructor(){
+    super();
+    this.onRequestTransferPoint = this.onRequestTransferPoint.bind(this);
+  }
+
+
+  async onRequestTransferPoint(toPoint) {
+    const { params } = this.props.navigation.state;
+    AsyncStorage.getItem('user-id').then((value) => {
+      this.setState({ userId: value, isFetching: true });
+
+
+      console.log('From: '+params.transferResultObject[2]);
+      console.log('To: '+params.transferResultObject[3]);
+      console.log('From Point: '+params.transferResultObject[1]);
+      console.log('To: '+ toPoint);
+      console.log('User Id:' + value);
+
+      const URL = `${IP}/transferPoint`;
+      axios({
+        method: 'post',
+        url: URL,
+        responseType: 'json',
+        data: {
+          fromCardId: params.transferResultObject[2].toString(),
+          toCardId: params.transferResultObject[3].toString(),
+          fromPoint: params.transferResultObject[1].toString(),
+          toPoint: toPoint.toString(),
+          userId: value.toString(),
+        },
+      }).then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          this.props.navigation.dispatch(
+            NavigationActions.reset({
+              key: null,
+              index: 0,
+              actions: [
+                NavigationActions.navigate({ routeName: 'SignedIn' }),
+              ]
+            })
+          );
+        }
+      });
+    }).done();
+  
+  }
+
   render() {
+    const { params } = this.props.navigation.state;
     const { navigate } = this.props.navigation;
     const contentContainer = StyleSheet.flatten(styles.contentContainer);
     const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
@@ -76,26 +131,31 @@ class TransferConfirmation extends Component {
     const cardViewRowItemEnd = StyleSheet.flatten(styles.cardViewRowItemEnd);
     const cardViewHeader = StyleSheet.flatten(styles.cardViewHeader);
 
+    let totalRecieve = 0;
+    let rate = 0;
+
+    rate = params.transferResultObject[0].toRate / params.transferResultObject[0].fromRate;
+    totalRecieve = parseInt(params.transferResultObject[1]) * rate;
+
     return (
       <Container>
         <ScrollView style={contentContainer}>
           <Tile styleName="text-centric" style={{ marginBottom: 8, backgroundColor: 'transparent' }}>
-            <Title styleName="sm-gutter-bottom">MIKE PATTON TEAMING WITH JOHN KAADA FOR COLLAB ALBUM BACTERIA CULT</Title>
-            <Caption>Sophia Jackson        2 hours ago</Caption>
+            <Title styleName="sm-gutter-bottom">Please check below information & Confirm your Transference</Title>
           </Tile>
           <Row styleName="small" style={cardViewHeader}>
-            <Text>TRANSFER OPERATION</Text>
+            <Text>TRANSFERENCE</Text>
             <Image
               styleName="small-avatar"
-              source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-9.png' }}
+              source={{ uri: params.transferResultObject[0].fromVendorId.img }}
             />
             <MaterialIcons name="keyboard-arrow-right" size={20} style={{ marginRight: 12 }} />
             <Image
               styleName="small-avatar"
-              source={{ uri: 'https://shoutem.github.io/img/ui-toolkit/examples/image-9.png' }}
+              source={{ uri: params.transferResultObject[0].toVendorId.img }}
             />
           </Row>
-          <Row style={cardViewRow}>
+          {/* <Row style={cardViewRow}>
             <View styleName="horizontal">
               <View styleName="vertical space-between" style={cardViewRowItem}>
                 <Title>From</Title>
@@ -108,18 +168,20 @@ class TransferConfirmation extends Component {
                 <Subtitle style={{ color: '#BFBFBF', fontSize: 14, marginTop: 5 }}>***** 1234 5678 9012</Subtitle>
               </View>
             </View>
-          </Row>
+          </Row> */}
           <Row style={cardViewRow}>
             <View styleName="horizontal">
               <View styleName="vertical space-between" style={cardViewRowItem}>
-                <Title>You transfer</Title>
-                <Text style={{ marginTop: 5, fontSize: 24 }}><MaterialIcons name="loyalty" size={16} /> 750 </Text>
-
+              
+                <Text style={{ marginTop: 5, fontSize: 24 }}><MaterialIcons name="loyalty" size={16} /> {params.transferResultObject[1]} </Text>
+                <Title style={{ color: '#34385d', fontSize: 16 }}>You transfer</Title>
               </View>
               <View styleName="vertical space-between" style={cardViewRowItemEnd}>
-                <Title>You receive</Title>
-                <Text style={{ marginTop: 5, fontSize: 24 }}><MaterialIcons name="loyalty" size={16} /> 750 </Text>
-
+              
+                <Text style={{ marginTop: 5, fontSize: 24 }}><MaterialIcons name="loyalty" size={16} /> 
+                  {totalRecieve} 
+                </Text>
+                <Title style={{ color: '#34385d', fontSize: 16 }}>You receive</Title>
               </View>
             </View>
           </Row>
@@ -129,12 +191,10 @@ class TransferConfirmation extends Component {
           <RaisedTextButton style={{ flex: 1 }}
             rippleDuration={600}
             rippleOpacity={0.54}
-            title='Continue'
+            title='CONFIRM'
             color='#34385d'
             titleColor='white'
-            onPress={
-              () => navigate('MyCard')
-            } />
+            onPress={ () => this.onRequestTransferPoint(totalRecieve)} />
         </View>
       </Container>
     );

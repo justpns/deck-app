@@ -53,10 +53,13 @@ const MyCardDetail = (props) => {
   return (
     <MyCard>
       <View style={wrapper}>
+ 
         <Image
+          key={props.card_detail.cardId}
           style={backgroundImage}
-          source={{ uri: props.card_detail.detail.img }}
+          source={{ uri: props.card_detail.img }}
         />
+        
         <View style={cardContentHolder}>
           {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
           <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
