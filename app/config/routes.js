@@ -35,7 +35,6 @@ export const LoyaltyCardStack = StackNavigator({
         backgroundColor: '#34385d',
         elevation: 0,
         paddingHorizontal: 16,
-        height: screen.height / 6,
       },
       headerTintColor: '#e5d464',
       headerTitleStyle: {
@@ -51,7 +50,6 @@ export const LoyaltyCardStack = StackNavigator({
       headerStyle: {
         backgroundColor: '#34385d',
         elevation: 0,
-        height: screen.height / 6,
       },
       headerTintColor: '#e5d464',
       headerTitleStyle: {
@@ -68,7 +66,6 @@ export const LoyaltyCardStack = StackNavigator({
       headerStyle: {
         backgroundColor: '#34385d',
         elevation: 0,
-        height: screen.height / 6,
       },
       headerTintColor: '#e5d464',
       headerTitleStyle: {
@@ -85,7 +82,6 @@ export const LoyaltyCardStack = StackNavigator({
       headerStyle: {
         backgroundColor: '#34385d',
         elevation: 0,
-        height: screen.height / 6,
       },
       headerTintColor: '#e5d464',
       headerTitleStyle: {
@@ -102,7 +98,6 @@ export const LoyaltyCardStack = StackNavigator({
       headerStyle: {
         backgroundColor: '#34385d',
         elevation: 0,
-        height: screen.height / 6,
       },
       headerTintColor: '#e5d464',
       headerTitleStyle: {
@@ -119,7 +114,6 @@ export const LoyaltyCardStack = StackNavigator({
       headerStyle: {
         backgroundColor: '#34385d',
         elevation: 0,
-        height: screen.height / 6,
       },
       headerTintColor: '#FFFFFF',
       headerTitleStyle: {
@@ -141,7 +135,6 @@ const ProfileStack = StackNavigator({
         backgroundColor: '#34385d',
         elevation: 0,
         paddingHorizontal: 16,
-        height: screen.height / 6,
       },
       headerTintColor: '#FFFFFF',
       headerTitleStyle: {
@@ -157,6 +150,7 @@ const MainNavigator = TabNavigator(
   {
     MyCard: { screen: LoyaltyCardStack },
     MyProfile: { screen: ProfileStack },
+    
   },
   {
     navigationOptions: ({ navigation }) => ({

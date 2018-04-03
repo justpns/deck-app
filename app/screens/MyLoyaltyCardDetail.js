@@ -180,7 +180,7 @@ class MyLoyaltyCardDetail extends Component {
                 </ScrollView>
 
                 <ActionButton
-                    buttonColor="#FFF"
+                    buttonColor="#e5d464"
                     renderIcon={
                         () => <MaterialIcons name="compare-arrows" style={styles.actionButtonIcon} />
                     }

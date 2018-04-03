@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Dimensions,
   Alert,
-  AsyncStorage
+  AsyncStorage,
+  KeyboardAvoidingView 
 } from 'react-native';
 
 import {
@@ -47,12 +48,13 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   cardViewSpecifyAmount: {
+    flex: 1,
     width: screen.width - 32,
     marginBottom: 10,
-    height: 220,
     backgroundColor: '#fff',
     borderRadius: 10,
     paddingHorizontal: 32,
+    paddingBottom: 15,
   },
   inputAmountContainer: {
     paddingBottom: 8,
@@ -89,7 +91,7 @@ class Transfer extends Component {
 
       this.onParamSetup = this.onParamSetup.bind(this);
       this.state = {
-        transferValue: '1',
+        transferValue: '0',
         isFetching: 'false',
         minimumTransferValue: undefined,
         maximumTransferValue: undefined,
@@ -99,7 +101,7 @@ class Transfer extends Component {
         fromPoint: undefined,
         userId: '',
         fromRate: undefined,
-        toRate: undefined
+        toRate: undefined,
       };
     }
 
@@ -114,7 +116,7 @@ class Transfer extends Component {
       this.setState({
         fromCardId: params.information[0],
         fromPoint: params.information[1],
-        transferValue: params.information[3].fromRate,
+        // transferValue: params.information[3].fromRate,
         toCardId: params.information[2],
         minimumTransferValue: params.information[3].fromRate,
         maximumTransferValue: params.information[1],
@@ -136,7 +138,9 @@ class Transfer extends Component {
 
       return (
             <Container>
+       
                 <ScrollView style={contentContainer}>
+                <KeyboardAvoidingView style={{flex: 1}} behavior="padding"> 
                     <Row style={cardViewRow}>
                         <View styleName="vertical" style={cardViewRowItem}>
                             <Heading style={{ fontSize: 18 }}>{params.information[3].toVendorId.name}</Heading>
@@ -161,10 +165,13 @@ class Transfer extends Component {
                         titleTextStyle={styles.inputAmountTitleText}
                         value={transferValue.toString()}
                         multiline={false}
-                        editable={false}
-                        onChangeText={phone => this.setState({ phone })}
+                        editable={true}
+                        enablesReturnKeyAutomatically={true}
+                        clearTextOnFocus={true}
+                        returnKeyType='done'
+                        onChangeText={transferValue => this.setState({ transferValue })}
                     />
-                    <Slider
+                    {/* <Slider
                         minimumTrackTintColor='#34385d'
                         value={parseInt(transferValue)}
                         step={params.information[3].fromRate}
@@ -175,12 +182,12 @@ class Transfer extends Component {
                         thumbTintColor='#34385d'
                         style={{ marginTop: 5 }}
                         onValueChange={transferValue => this.setState({ transferValue })}
-                    />
+                    /> */}
 
                     </View>
-                </ScrollView>
-                <View style={{ flex: 0.10 }}>
-                    <RaisedTextButton style={{ flex: 1 }}
+
+                                    <View style={{ flex: 0.20 }}>
+                    <RaisedTextButton style={{ flex: 1, borderRadius: 8 }}
                     rippleDuration={600}
                     rippleOpacity={0.54}
                     title='REQUEST TO TRANSFER'
@@ -193,10 +200,21 @@ class Transfer extends Component {
                           transferResultObject.push(transferValue);
                           transferResultObject.push(params.information[0]);
                           transferResultObject.push(params.information[2]);
-                          navigate('TransferConfirmation', { transferResultObject: transferResultObject })
+                          if(transferValue <  params.information[3].fromRate){
+                            Alert.alert(`The minimum point is ${params.information[3].fromRate}`);
+                          }else if(transferValue > params.information[1]){
+                            Alert.alert(`Not enough point`);
+                          }else{
+                            navigate('TransferConfirmation', { transferResultObject: transferResultObject })
+                          }                 
                         }
                     } />
                 </View>
+                    </KeyboardAvoidingView>
+                </ScrollView>
+             
+
+           
             </Container>
       );
     }

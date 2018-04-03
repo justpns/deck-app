@@ -48,7 +48,7 @@ class VendorPartnerCardList extends Component {
     const { params } = navigation.state;
 
     return {
-      // headerTitle: "Select a transfer's partner",
+      // headerTitle: params.vendorFrom.detail.name,
       // headerRight: (
       //     <TouchableOpacity>
       //         <MaterialIcons name="receipt" size={26} color="#FFFFFF" />
@@ -134,12 +134,13 @@ class VendorPartnerCardList extends Component {
 
     return (
       <Container>
-        <View style={{ flex: 0.15 }}>
+        <View style={{ flex: 0.15, paddingHorizontal: 16 }}>
           <Divider styleName="section-header" style={{ backgroundColor: 'transparent', borderTopWidth: 0, borderBottomWidth: 0 }}>
             <Caption style={{ color: '#e5d464' }}>Select a card</Caption>
           </Divider>
         </View>
         <FlatList
+          style={{paddingHorizontal: 16}}
           numColumns={1}
           data={myCardVendorPartners}
           renderItem={({ item }) => (
