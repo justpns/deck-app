@@ -141,7 +141,7 @@ class TransferConfirmation extends Component {
       <Container>
         <ScrollView style={contentContainer}>
           <Tile styleName="text-centric" style={{ marginBottom: 8, backgroundColor: 'transparent' }}>
-            <Title styleName="sm-gutter-bottom">Please check below information & Confirm your Transference</Title>
+            <Title styleName="sm-gutter-bottom">Confirm your Transference</Title>
           </Tile>
           <Row styleName="small" style={cardViewHeader}>
             <Text>TRANSFERENCE</Text>

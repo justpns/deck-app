@@ -50,6 +50,7 @@ const MyCardDetail = (props) => {
   const backgroundImage = EStyleSheet.flatten(styles.backgroundImage);
   const cardContentHolder = EStyleSheet.flatten(styles.cardContentHolder);
   const wrapper = EStyleSheet.flatten(styles.wrapper);
+
   return (
     <MyCard>
       <View style={wrapper}>
@@ -63,7 +64,7 @@ const MyCardDetail = (props) => {
         <View style={cardContentHolder}>
           {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
           <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
-            <Text style={pointLabel}>{`${props.card_detail.point} Points`}</Text>
+            <Text style={pointLabel}>{`${props.card_detail.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} Points`}</Text>
           </View>
         </View>
       </View>

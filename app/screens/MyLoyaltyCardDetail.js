@@ -139,7 +139,7 @@ class MyLoyaltyCardDetail extends Component {
                     <Caption>{cardTransferHistory[i].dateTime.substr(0, cardTransferHistory[i].dateTime.indexOf(' '))}</Caption>
                 </View>
                 <View styleName="vertical stretch space-between" style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <Subtitle>- {cardTransferHistory[i].fromPoint}</Subtitle>
+                    <Subtitle>- {cardTransferHistory[i].fromPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Subtitle>
                 </View>
             </Row>);
         }
@@ -159,7 +159,7 @@ class MyLoyaltyCardDetail extends Component {
                 <View styleName="vertical" style={{ flex: 0.50 }}>
                     <Row style={cardViewRow}>
                         <View styleName="vertical stretch">
-                            <Heading style={{ color: '#fff', fontSize: 32, paddingTop: 20 }}> <MaterialIcons name="loyalty" size={26} color="#FFFFFF" /> {params.cardItem[0].point} </Heading>
+                            <Heading style={{ color: '#fff', fontSize: 32, paddingTop: 20 }}> <MaterialIcons name="loyalty" size={26} color="#FFFFFF" /> {params.cardItem[0].point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </Heading>
                             <Subtitle style={{ color: '#fff', fontSize: 14, paddingLeft: 12 }}>Balance via {params.cardItem[0].cardNumber}</Subtitle>
                         </View>
                     </Row>

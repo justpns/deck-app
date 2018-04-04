@@ -12,6 +12,7 @@ import Transfer from '../screens/Transfer';
 import TransferConfirmation from '../screens/TransferConfirmation';
 
 import SignIn from '../screens/SignIn';
+import SignUp from '../screens/SignUp';
 
 import MyProfile from '../screens/MyProfile';
 
@@ -24,6 +25,22 @@ export const SignedOut = StackNavigator({
     navigationOptions: {
       title: 'Sign In',
     },
+  },
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: {
+      title: "Sign Up",
+      headerStyle: {
+        backgroundColor: '#34385d',
+        elevation: 0,
+      },
+      headerTintColor: '#FFFFFF',
+      headerTitleStyle: {
+        fontWeight: '300',
+        fontFamily: 'Arial',
+        fontSize: 20,
+      },
+    }
   },
 });
 

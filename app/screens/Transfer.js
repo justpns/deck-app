@@ -150,7 +150,7 @@ class Transfer extends Component {
                     </Row>
                     <Row style={cardViewRow}>
                         <View styleName="vertical" style={cardViewRowItem}>
-                            <Heading>{params.information[3].fromRate} : {params.information[3].toRate}</Heading>
+                            <Heading>{params.information[3].fromRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} : {params.information[3].toRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Heading>
                             <Subtitle style={{ color: '#34385d', fontSize: 16 }}>With rates</Subtitle>
                         </View>
                     </Row>
@@ -201,7 +201,7 @@ class Transfer extends Component {
                           transferResultObject.push(params.information[0]);
                           transferResultObject.push(params.information[2]);
                           if(transferValue <  params.information[3].fromRate){
-                            Alert.alert(`The minimum point is ${params.information[3].fromRate}`);
+                            Alert.alert(`The minimum point is ${params.information[3].fromRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`);
                           }else if(transferValue > params.information[1]){
                             Alert.alert(`Not enough point`);
                           }else{
