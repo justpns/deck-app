@@ -88,7 +88,7 @@ class MyLoyaltyCardDetail extends Component {
     }
 
     componentWillMount() {
-        //this.onRequestGetCardDetail();
+        this.onRequestGetCardDetail();
     }
 
     async onRequestGetCardDetail() {
@@ -122,22 +122,22 @@ class MyLoyaltyCardDetail extends Component {
         const { cardTransferHistory } = this.state;
         const historyObj = [];
         for (let i = 0; i < cardTransferHistory.length; ++i) {
-            historyObj.push(<Row key={i} style={{ marginBottom: 8,  marginLeft: 16 }}>
-                <Image
+            historyObj.push(<Row key={i} style={{ marginBottom: 8, marginLeft: 16 }}>
+                {/* <Image
                     styleName="small-avatar"
-                    source={{ uri: cardTransferHistory[i].fromComapnyDetail.img }}
+                    source={{ uri: cardTransferHistory[i].oldRoyaltyProgramImg }}
                 />
                 <MaterialIcons name="keyboard-arrow-right" size={20} style={{ marginRight: 12 }} />
                 <Image
                     styleName="small-avatar"
-                    source={{ uri: cardTransferHistory[i].toComapnyDetail.img }}
-                />
+                    source={{ uri: cardTransferHistory[i].newRoyaltyProgramImg }}
+                /> */}
                 <View styleName="vertical stretch space-between">
-                    <Subtitle>To {cardTransferHistory[i].toComapnyDetail.name}</Subtitle>
+                    <Subtitle>To {cardTransferHistory[i].newRoyaltyProgramName}</Subtitle>
                     <Caption>{cardTransferHistory[i].dateTime.substr(0, cardTransferHistory[i].dateTime.indexOf(' '))}</Caption>
                 </View>
                 <View styleName="vertical stretch space-between" style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <Subtitle>- {cardTransferHistory[i].fromPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Subtitle>
+                    <Subtitle>- {cardTransferHistory[i].fromPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} points</Subtitle>
                 </View>
             </Row>);
         }
@@ -174,7 +174,7 @@ class MyLoyaltyCardDetail extends Component {
                             onRefresh={this._onRefresh.bind(this)}
                         />
                     }>
-                    {/* {this.renderHistoryDetail()} */}
+                    {this.renderHistoryDetail()}
                 </ScrollView>
 
                 <ActionButton

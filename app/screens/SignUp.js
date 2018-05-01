@@ -105,7 +105,7 @@ class SignUp extends Component {
 
     onSignUp() {
       const { navigate } = this.props.navigation;
-      const URL = `${IP}/users/`;
+      const URL = `${IP}/user`;
       axios({
         method: 'post',
         url: URL,
@@ -113,15 +113,13 @@ class SignUp extends Component {
         data: {
           username: this.state.username.toString(),
           password: this.state.password.toString(),
-          citizenid: this.state.citizenId.toString(),
+          citizenId: this.state.citizenId.toString(),
           firstname: this.state.firstname.toString(),
           lastname: this.state.lastname.toString(),
-          phoneNumber: this.state.phoneNumber.toString(),
         },
       }).then((response) => {
-        if (response.status === 200) {     
-          // () => navigate('SignedOut');
-          console.log(response);
+        if (response.status === 200) {              
+          navigate('SignedOut');
         } else {
           Alert.alert('Fail');
         }
@@ -131,7 +129,7 @@ class SignUp extends Component {
     }
 
     render() {
-      const { username, password, citizenId, firstname, lastname, phoneNumber, secureTextEntry } = this.state;
+      const { username, password, citizenId, firstname, lastname, secureTextEntry } = this.state;
 
       const contentContainer = StyleSheet.flatten(styles.contentContainer);
       const cardViewField = StyleSheet.flatten(styles.cardViewField);
@@ -236,7 +234,7 @@ class SignUp extends Component {
                             returnKeyType='next'
                         />
 
-                          <TextField
+                          {/* <TextField
                             inputContainerPadding={20}
                             label='Mobile No.'
                             labelFontSize={16}
@@ -252,7 +250,7 @@ class SignUp extends Component {
                             enablesReturnKeyAutomatically={true}
                             onChangeText={phoneNumber => this.setState({ phoneNumber })}
                             returnKeyType='done'
-                        />
+                        /> */}
 
 
                     <View style={{ flex: 1 }}>
