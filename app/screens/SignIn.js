@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const IP = 'http://52.230.25.97:3333';
+const IP = 'http://52.230.26.113:3333';
 
 class SignIn extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -101,7 +101,7 @@ class SignIn extends Component {
 
     onSignIn() {
       const { navigate } = this.props.navigation;
-      const URL = `${IP}/users/login`;
+      const URL = `${IP}/login/user`;
       axios({
         method: 'post',
         url: URL,
@@ -112,7 +112,7 @@ class SignIn extends Component {
         },
       }).then((response) => {
         if (response.status === 200) {
-          AsyncStorage.setItem('user-citizen', response.data.citizenId.toString());
+          AsyncStorage.setItem('user-citizen', response.data.userId.toString());
           onSignIn().then(() => navigate('SignedIn'));
         } else {
           Alert.alert('Invalid Username or Password');

@@ -28,7 +28,7 @@ import { RaisedTextButton } from 'react-native-material-buttons';
 import { Container } from '../components/Container';
 
 const screen = Dimensions.get('window');
-const IP = 'http://52.230.25.97:3333';
+const IP = 'http://52.230.26.113:3333';
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 0.92,
@@ -82,8 +82,8 @@ class TransferConfirmation extends Component {
 
   async onRequestTransferPoint(toPoint) {
     const { params } = this.props.navigation.state;
-    AsyncStorage.getItem('user-id').then((value) => {
-      this.setState({ userId: value, isFetching: true });
+    AsyncStorage.getItem('user-citizen').then((value) => {
+      this.setState({ userCitizenId: value, isFetching: true });
 
 
       console.log('From: '+params.transferResultObject[2]);
@@ -92,17 +92,17 @@ class TransferConfirmation extends Component {
       console.log('To: '+ toPoint);
       console.log('User Id:' + value);
 
-      const URL = `${IP}/transferPoint`;
+      const URL = `${IP}/transfer/point`;
       axios({
         method: 'post',
         url: URL,
         responseType: 'json',
         data: {
-          fromCardId: params.transferResultObject[2].toString(),
-          toCardId: params.transferResultObject[3].toString(),
-          fromPoint: params.transferResultObject[1].toString(),
-          toPoint: toPoint.toString(),
           userId: value.toString(),
+          fromCardId: params.transferResultObject[2].toString(),
+          fromPoint: params.transferResultObject[1].toString(),
+          toCardId: params.transferResultObject[3].toString(),        
+          toPoint: toPoint.toString(),
         },
       }).then((response) => {
         if (response.status === 200) {

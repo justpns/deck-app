@@ -24,6 +24,6 @@
     "rules": {
         "arrow-body-style": "warn",
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "eslint no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+        "eslint no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
     }
 }

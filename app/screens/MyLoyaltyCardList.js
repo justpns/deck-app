@@ -53,7 +53,7 @@ const CustomHeaderTitle = props => (
   </View>
 );
 
-const IP = 'http://52.230.25.97:3333';
+const IP = 'http://52.230.26.113:3333';
 
 class MyLoyaltyCardList extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -111,40 +111,39 @@ class MyLoyaltyCardList extends Component {
     AsyncStorage.getItem('user-citizen').then((value) => {
       this.setState({ userCitizenId: value, isFetching: true });
       // Alert.alert(this.state.userCitizenId);
-      const URL = `${IP}/users/${this.state.userCitizenId}`;
+      const URL = `${IP}/card/${this.state.userCitizenId}`;
       // Alert.alert(URL);
       axios({
         method: 'get',
         url: URL,
       }).then((response) => {
         if (response.status === 200) {
+
           this.setState({
-            userId: response.data,
+            cards: response.data,
+            isFetching: false,
           });
-          AsyncStorage.setItem('user-id', response.data.toString());
-          // Alert.alert(response.data);
-          this.onRequestGetUserCards(response.data);
         }
       });
     }).done();
   }
 
-  async onRequestGetUserCards(userId) {
-    const URL = `${IP}/cards/${userId}`;
+  // async onRequestGetUserCards() {
+  //   const URL = `${IP}/cards/${userId}`;
 
-    await axios({
-      method: 'get',
-      url: URL,
-    }).then((response) => {
-      if (response.status === 200) {
+  //   await axios({
+  //     method: 'get',
+  //     url: URL,
+  //   }).then((response) => {
+  //     if (response.status === 200) {
 
-        this.setState({
-          cards: response.data,
-          isFetching: false,
-        });
-      }
-    });
-  }
+  //       this.setState({
+  //         cards: response.data,
+  //         isFetching: false,
+  //       });
+  //     }
+  //   });
+  // }
 
   onRefresh() {
     this.setState({ isFetching: true }, function() { this.onRequestGetUserId() });
@@ -201,7 +200,7 @@ class MyLoyaltyCardList extends Component {
                       const paramsObj = [];
                       paramsObj.push(item);
                       paramsObj.push(userId);
-                      navigate('LoyaltyCardDetail', { cardItem: paramsObj });
+                      navigate('LoyaltyCardDetail', { cardItem: item });
                     }
                   }>
                   <MyCardDetail card_detail={item} />

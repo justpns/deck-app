@@ -26,7 +26,7 @@ import { Container } from '../components/Container';
 import VendorPartnerDetail from '../components/VendorPartner/VendorPartnerDetail';
 
 const screen = Dimensions.get('window');
-const IP = 'http://52.230.25.97:3333';
+const IP = 'http://52.230.26.113:3333';
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -47,7 +47,7 @@ class VendorPartnerList extends Component {
     const { params } = navigation.state;
 
     return {
-      headerTitle: params.fromVendor.detail.name,
+      headerTitle: params.fromVendor.royaltyProgramName,
       // headerRight: (
       //     <TouchableOpacity>
       //         <MaterialIcons name="receipt" size={26} color="#FFFFFF" />
@@ -65,7 +65,7 @@ class VendorPartnerList extends Component {
     };
 
     this.onRequestGetCardVendorPartner = this.onRequestGetCardVendorPartner.bind(this);
-    this.renderCardVendorPartners = this.renderCardVendorPartners.bind(this);
+    //this.renderCardVendorPartners = this.renderCardVendorPartners.bind(this);
   }
 
   componentWillMount() {
@@ -77,10 +77,11 @@ class VendorPartnerList extends Component {
     this.setState({
       isFetching: true,
     });
-    const URL = `${IP}/partners/${params.fromVendor.detail._id}`;
+    const URL = `${IP}/partner/${params.fromVendor.royaltyProgramName}`;
+    const encodeURL = encodeURI(URL);
     await axios({
       method: 'get',
-      url: URL,
+      url: encodeURL,
     }).then((response) => {
       if (response.status === 200) {
         this.setState({

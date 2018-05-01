@@ -76,7 +76,8 @@ const customStyles9 = StyleSheet.create({
   },
 });
 
-const IP = 'http://52.230.25.97:3333';
+const IP = 'http://52.230.26.113:3333';
+
 class Transfer extends Component {
     static navigationOptions = ({ navigation }) => {
       const { params } = navigation.state;

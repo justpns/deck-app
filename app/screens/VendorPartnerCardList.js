@@ -6,7 +6,7 @@ import {
   Dimensions,
   Alert,
   FlatList,
-  AsyncStorage
+  AsyncStorage,
 } from 'react-native';
 
 import {
@@ -27,7 +27,7 @@ import { Container } from '../components/Container';
 import MyCardDetail from '../components/MyCard/MyCardDetail';
 
 const screen = Dimensions.get('window');
-const IP = 'http://52.230.25.97:3333';
+const IP = 'http://52.230.26.113:3333';
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -57,12 +57,12 @@ class VendorPartnerCardList extends Component {
     };
   };
 
-  MyCardDetailObject(cardId, cardNumber,img, point, detail){
-      this.cardId = cardId;
-      this.cardNumber = cardNumber;
-      this.img = img;
-      this.point = point;
-      this.detail = detail;
+  MyCardDetailObject(cardId, cardNumber, img, point, detail) {
+    this.cardId = cardId;
+    this.cardNumber = cardNumber;
+    this.img = img;
+    this.point = point;
+    this.detail = detail;
   }
 
   constructor() {
@@ -83,24 +83,26 @@ class VendorPartnerCardList extends Component {
 
   async onRequestGetCardVendorPartnerInformation() {
     const { params } = this.props.navigation.state;
-    AsyncStorage.getItem('user-id').then((value) => {
-      this.setState({ userId: value, isFetching: true });
-     
-      const URL = `${IP}/partners/${params.information[0].detail._id}/${params.information[1].toVendorId._id}/${this.state.userId}`;
+    AsyncStorage.getItem('user-citizen').then((value) => {
+      this.setState({ userCitizenId: value, isFetching: true });
+
+      const URL = `${IP}/partner/card/${params.information[1].toVendorId.name}/${this.state.userCitizenId}`;
+      const encodeURL = encodeURI(URL);
+      // Alert.alert(encodeURL);
       axios({
         method: 'get',
-        url: URL,
+        url: encodeURL,
       }).then((response) => {
         if (response.status === 200) {
-          let tempArray = [];
+          const tempArray = [];
 
-          response.data.map((value, index) => {
+          response.data.userCardlist.map((value, index) => {
             tempArray.push(new this.MyCardDetailObject(
-                value.cardId,
-                value.cardNumber,
-                value.detail.toVendorId.img,
-                value.point,
-                value.detail,
+              value.cardId,
+              value.cardNumber,
+              '',
+              value.point,
+              value.royaltyProgramId,
             ));
           });
 
@@ -108,11 +110,11 @@ class VendorPartnerCardList extends Component {
             myCardVendorPartners: tempArray,
             isFetching: false,
           });
-          
+
         }
       });
     }).done();
-  
+
   }
 
   render() {
@@ -140,7 +142,7 @@ class VendorPartnerCardList extends Component {
           </Divider>
         </View>
         <FlatList
-          style={{paddingHorizontal: 16}}
+          style={{ paddingHorizontal: 16 }}
           numColumns={1}
           data={myCardVendorPartners}
           renderItem={({ item }) => (
@@ -148,13 +150,12 @@ class VendorPartnerCardList extends Component {
               onPress={
                 () => {
                   const paramsObj = [];
-                  paramsObj.push(params.information[0].cardId);
-                  paramsObj.push(params.information[0].point);
-                  paramsObj.push(item.cardId);
-                  paramsObj.push(item.detail);
-                  
-                  console.log(paramsObj);
-                  navigate('Transfer', { information: paramsObj});
+                  paramsObj.push(params.information[0].cardId); //from cardId
+                  paramsObj.push(params.information[0].point); //from point
+                  paramsObj.push(item.cardId); //to Card Id
+                  paramsObj.push(params.information[1]); //rules
+
+                  navigate('Transfer', { information: paramsObj });
                 }
               }>
               <MyCardDetail card_detail={item} />

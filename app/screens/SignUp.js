@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const IP = 'http://52.230.25.97:3333';
+const IP = 'http://52.230.26.113:3333';
 
 class SignUp extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -113,7 +113,7 @@ class SignUp extends Component {
         data: {
           username: this.state.username.toString(),
           password: this.state.password.toString(),
-          citizenId: this.state.citizenId.toString(),
+          citizenid: this.state.citizenId.toString(),
           firstname: this.state.firstname.toString(),
           lastname: this.state.lastname.toString(),
           phoneNumber: this.state.phoneNumber.toString(),
@@ -139,15 +139,12 @@ class SignUp extends Component {
             <Container>
                 <StatusBar backgroundColor="#34385d" barStyle="light-content" />
                 <View style={contentContainer}>
-                    {/* <Image
-                        styleName="large-banner"
-                        source={app_logo}
-                    /> */}
+
                     <ScrollView style={cardViewField}>
                         <TextField
                             inputContainerPadding={20}
                             label='Username'
-                            labelFontSize={16}
+                            labelFontSize={16}dlinef
                             labelHeight={42}
                             fontSize={16}
                             textColor='#fff'
@@ -270,7 +267,6 @@ class SignUp extends Component {
 
 
                     </ScrollView>
-
                 </View>
             </Container>
       );

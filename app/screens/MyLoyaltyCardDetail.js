@@ -59,14 +59,14 @@ const styles = StyleSheet.create({
     },
 });
 
-const IP = 'http://52.230.25.97:3333';
+const IP = 'http://52.230.26.113:3333';
 
 class MyLoyaltyCardDetail extends Component {
     static navigationOptions = ({ navigation }) => {
         const { params } = navigation.state;
 
         return {
-            headerTitle: params.cardItem[0].detail.name,
+            headerTitle: params.cardItem.royaltyProgramName,
             // headerRight: (
             //     <TouchableOpacity>
             //         <MaterialIcons name="receipt" size={26} color="#FFFFFF" />
@@ -88,7 +88,7 @@ class MyLoyaltyCardDetail extends Component {
     }
 
     componentWillMount() {
-        this.onRequestGetCardDetail();
+        //this.onRequestGetCardDetail();
     }
 
     async onRequestGetCardDetail() {
@@ -96,7 +96,8 @@ class MyLoyaltyCardDetail extends Component {
         this.setState({
             isFetchingHistory: true,
         });
-        const URL = `${IP}/transferPoint/${params.cardItem[0].userId}/${params.cardItem[0].cardId}`;
+
+        const URL = `${IP}/history/card/${params.cardItem.userId}/${params.cardItem.cardId}`;
         await axios({
             method: 'get',
             url: URL,
@@ -106,9 +107,6 @@ class MyLoyaltyCardDetail extends Component {
                     isFetchingHistory: false,
                     cardTransferHistory: response.data,
                 });
-                console.log(response.data);
-                console.log(params.cardItem[0].userId);
-                console.log(params.cardItem[0].cardId);
             }
         });
     }
@@ -159,8 +157,8 @@ class MyLoyaltyCardDetail extends Component {
                 <View styleName="vertical" style={{ flex: 0.50 }}>
                     <Row style={cardViewRow}>
                         <View styleName="vertical stretch">
-                            <Heading style={{ color: '#fff', fontSize: 32, paddingTop: 20 }}> <MaterialIcons name="loyalty" size={26} color="#FFFFFF" /> {params.cardItem[0].point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </Heading>
-                            <Subtitle style={{ color: '#fff', fontSize: 14, paddingLeft: 12 }}>Balance via {params.cardItem[0].cardNumber}</Subtitle>
+                            <Heading style={{ color: '#fff', fontSize: 32, paddingTop: 20 }}> <MaterialIcons name="loyalty" size={26} color="#FFFFFF" /> {params.cardItem.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </Heading>
+                            <Subtitle style={{ color: '#fff', fontSize: 14, paddingLeft: 12 }}>Balance via {params.cardItem.cardNumber}</Subtitle>
                         </View>
                     </Row>
                 </View>
@@ -176,7 +174,7 @@ class MyLoyaltyCardDetail extends Component {
                             onRefresh={this._onRefresh.bind(this)}
                         />
                     }>
-                    {this.renderHistoryDetail()}
+                    {/* {this.renderHistoryDetail()} */}
                 </ScrollView>
 
                 <ActionButton
@@ -185,7 +183,7 @@ class MyLoyaltyCardDetail extends Component {
                         () => <MaterialIcons name="compare-arrows" style={styles.actionButtonIcon} />
                     }
                     onPress={
-                        () => navigate('VendorPartnerList', { fromVendor: params.cardItem[0] })
+                        () => navigate('VendorPartnerList', { fromVendor: params.cardItem })
                     }>
                 </ActionButton>
             </Container>
