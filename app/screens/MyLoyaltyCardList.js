@@ -66,9 +66,15 @@ class MyLoyaltyCardList extends Component {
       //     <MaterialIcons name="face" size={30} color="#C8CBFA" />
       //   </TouchableOpacity>
       // ),
+      // headerRight: (
+      //   <TouchableOpacity
+      //     onPress={() => onSignOut().then(() => navigation.navigate('RoyaltyProgramList'))}>
+      //     <MaterialIcons name="add-to-photos" size={20} color="#e5d464" />
+      //   </TouchableOpacity>
+      // ),
       headerRight: (
         <TouchableOpacity
-          onPress={() => onSignOut().then(() => navigation.navigate('SignedOut'))}>
+          onPress={() => navigation.navigate('RoyaltyProgramList')}>
           <MaterialIcons name="add-to-photos" size={20} color="#e5d464" />
         </TouchableOpacity>
       ),
