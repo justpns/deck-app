@@ -6,6 +6,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import MyLoyaltyCardList from '../screens/MyLoyaltyCardList';
 import RoyaltyProgramList from '../screens/RoyaltyProgramList';
+import AddNewCard from '../screens/AddNewCard';
 import MyLoyaltyCardDetail from '../screens/MyLoyaltyCardDetail';
 import VendorPartnerList from '../screens/VendorPartnerList';
 import VendorPartnerCardList from '../screens/VendorPartnerCardList';
@@ -64,6 +65,22 @@ export const LoyaltyCardStack = StackNavigator({
   },
   RoyaltyProgramList: {
     screen: RoyaltyProgramList,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#34385d',
+        elevation: 0,
+        paddingRight: 16,
+      },
+      headerTintColor: '#e5d464',
+      headerTitleStyle: {
+        fontWeight: '300',
+        fontFamily: 'Arial',
+        fontSize: 18,
+      },
+    }),
+  },
+  AddNewCard: {
+    screen: AddNewCard,
     navigationOptions: ({ navigation }) => ({
       headerStyle: {
         backgroundColor: '#34385d',

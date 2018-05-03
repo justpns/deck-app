@@ -142,7 +142,7 @@ class SignUp extends Component {
                         <TextField
                             inputContainerPadding={20}
                             label='Username'
-                            labelFontSize={16}dlinef
+                            labelFontSize={16}
                             labelHeight={42}
                             fontSize={16}
                             textColor='#fff'

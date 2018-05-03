@@ -28,7 +28,7 @@ const styles = EStyleSheet.create({
   backgroundImage: {
     flex: 1,
     resizeMode: 'cover',
-    borderRadius: 16,
+    borderRadius: 10,
   },
   cardContentHolder: {
     flex: 1,
@@ -40,10 +40,17 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 15,
     position: 'absolute',
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
 });
+
+const AIS_BG = 'http://www.ais.co.th/privilege/birthday/images/popup/poppic4.jpg';
+const AIR_ASIA = 'https://dexticket.weebly.com/uploads/8/4/0/7/84076736/1514944-958880350796878-2325486274520736736-n_orig.png';
+const ESSO_SMILE = 'https://d16a8a62orsrve.cloudfront.net/assets/img/card_tpl/1423810639sMVjA.png';
+const THE_ONE = 'https://bookings.co.th/wp-content/uploads/Title-The-1-Card-660x330.jpg';
+const PTT = 'https://promotions.co.th/wp-content/uploads/PTT-Blue-Card-Happiness-Dining-MK-Gold.jpg';
+const TESCO = 'https://www.tescolotus.com/assets/service/img/landing/obj-04.png';
 
 const MyCardDetail = (props) => {
   const { nameLabel, pointLabel } = styles;
@@ -51,26 +58,90 @@ const MyCardDetail = (props) => {
   const cardContentHolder = EStyleSheet.flatten(styles.cardContentHolder);
   const wrapper = EStyleSheet.flatten(styles.wrapper);
 
-  return (
-    <MyCard>
-      <View style={wrapper}>
- 
-         <Image
-          key={props.card_detail.cardId}
-          style={backgroundImage}
-          source={{ uri: props.card_detail.img }}
-        />
-        
-        <View style={cardContentHolder}>
-          {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
-          <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
-            <Text style={pointLabel}>{`${props.card_detail.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} Points`}</Text>
+  switch (props.card_detail.vendor) {
+    case 'AIS':
+      return (
+      <MyCard>
+        <View style={wrapper}>
+
+          <Image
+            style={backgroundImage}
+            source={{ uri: AIS_BG }}
+          />
+
+          <View style={cardContentHolder}>
+            {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
+            <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
+              <Text style={pointLabel}>{`${props.card_detail.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+            </View>
           </View>
         </View>
-      </View>
 
-    </MyCard>
-  );
+      </MyCard>
+      );
+    case 'AIR ASIA':
+      return (
+      <MyCard>
+        <View style={wrapper}>
+
+          <Image
+            style={backgroundImage}
+            source={{ uri: AIR_ASIA }}
+          />
+
+          <View style={cardContentHolder}>
+            {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
+            <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
+              <Text style={pointLabel}>{`${props.card_detail.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+            </View>
+          </View>
+        </View>
+
+      </MyCard>
+      );
+    case 'ESSO':
+      return (
+      <MyCard>
+        <View style={wrapper}>
+
+          <Image
+            style={backgroundImage}
+            source={{ uri: ESSO_SMILE }}
+          />
+
+          <View style={cardContentHolder}>
+            {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
+            <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
+              <Text style={pointLabel}>{`${props.card_detail.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+            </View>
+          </View>
+        </View>
+
+      </MyCard>
+      );
+    case 'CENTRAL':
+      return (
+      <MyCard>
+        <View style={wrapper}>
+
+          <Image
+            style={backgroundImage}
+            source={{ uri: THE_ONE }}
+          />
+
+          <View style={cardContentHolder}>
+            {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
+            <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
+              <Text style={pointLabel}>{`${props.card_detail.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+            </View>
+          </View>
+        </View>
+
+      </MyCard>
+      );
+    default:
+      return null;
+  }
 };
 
 export default MyCardDetail;

@@ -10,7 +10,7 @@ const styles = EStyleSheet.create({
     width: ((screen.width - (26 * 2)) / 2),
     height: 120,
     elevation: 1,
-    borderRadius: 16,
+    borderRadius: 10,
     marginHorizontal: 5,
     marginVertical: 8,
   },

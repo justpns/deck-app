@@ -27,7 +27,7 @@ import MyCardDetail from '../components/MyCard/MyCardDetail';
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
-    paddingHorizontal: 16,
+    paddingLeft: 14,
     flexDirection: 'column',
     backgroundColor: 'transparent',
   },
@@ -109,10 +109,6 @@ class MyLoyaltyCardList extends Component {
     this.onRequestGetUserId();
   }
 
-  // componentDidMount() {
-  //   this.onRequestGetUserId();
-  // }
-
   async onRequestGetUserId() {
     AsyncStorage.getItem('user-citizen').then((value) => {
       this.setState({ userCitizenId: value, isFetching: true });
@@ -134,22 +130,6 @@ class MyLoyaltyCardList extends Component {
     }).done();
   }
 
-  // async onRequestGetUserCards() {
-  //   const URL = `${IP}/cards/${userId}`;
-
-  //   await axios({
-  //     method: 'get',
-  //     url: URL,
-  //   }).then((response) => {
-  //     if (response.status === 200) {
-
-  //       this.setState({
-  //         cards: response.data,
-  //         isFetching: false,
-  //       });
-  //     }
-  //   });
-  // }
 
   onRefresh() {
     this.setState({ isFetching: true }, function() { this.onRequestGetUserId() });
