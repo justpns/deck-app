@@ -48,7 +48,7 @@ class VendorPartnerCardList extends Component {
     const { params } = navigation.state;
 
     return {
-      headerTitle: params.information[1].toVendorId.name,
+      headerTitle: `To: ${  params.information[1].toVendorId.name}`,
       // headerRight: (
       //     <TouchableOpacity>
       //         <MaterialIcons name="receipt" size={26} color="#FFFFFF" />

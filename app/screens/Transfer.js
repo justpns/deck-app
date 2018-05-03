@@ -5,7 +5,7 @@ import {
   Dimensions,
   Alert,
   AsyncStorage,
-  KeyboardAvoidingView 
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import {
@@ -106,14 +106,13 @@ class Transfer extends Component {
       };
     }
 
-    componentWillMount(){
+    componentWillMount() {
       // this.onRequestGetCardVendorPartnerInformation();
       this.onParamSetup();
     }
 
-    async onParamSetup(){
+    async onParamSetup() {
       const { params } = this.props.navigation.state;
-      Alert.alert(params.information[4]);
       this.setState({
         fromCardId: params.information[0],
         fromPoint: params.information[1],
@@ -126,7 +125,6 @@ class Transfer extends Component {
       });
     }
 
-    
 
     render() {
       const { params } = this.props.navigation.state;
@@ -139,9 +137,9 @@ class Transfer extends Component {
 
       return (
             <Container>
-       
+
                 <ScrollView style={contentContainer}>
-                <KeyboardAvoidingView style={{flex: 1}} behavior="padding"> 
+                <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
                     <Row style={cardViewRow}>
                         <View styleName="vertical" style={cardViewRowItem}>
                             <Heading style={{ fontSize: 18 }}>{params.information[3].toVendorId.name}</Heading>
@@ -151,7 +149,7 @@ class Transfer extends Component {
                     </Row>
                     <Row style={cardViewRow}>
                         <View styleName="vertical" style={cardViewRowItem}>
-                            <Heading>{params.information[3].fromRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} : {params.information[3].toRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Heading>
+                            <Heading>{params.information[3].fromRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} : {params.information[3].toRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Heading>
                             <Subtitle style={{ color: '#34385d', fontSize: 14 }}>With rates</Subtitle>
                         </View>
                     </Row>
@@ -196,26 +194,26 @@ class Transfer extends Component {
                     titleColor='white'
                     onPress={
                         () => {
-                          let transferResultObject = [];
+                          const transferResultObject = [];
                           transferResultObject.push(params.information[3]);
                           transferResultObject.push(transferValue);
                           transferResultObject.push(params.information[0]);
                           transferResultObject.push(params.information[2]);
-                          if(transferValue <  params.information[3].fromRate){
-                            Alert.alert(`The minimum point is ${params.information[3].fromRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`);
-                          }else if(transferValue > params.information[1]){
-                            Alert.alert(`Not enough point`);
-                          }else{
-                            navigate('TransferConfirmation', { transferResultObject: transferResultObject })
-                          }                 
+                          if (transferValue < params.information[3].fromRate) {
+                            Alert.alert(`The minimum point is ${params.information[3].fromRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`);
+                          } else if (transferValue > params.information[1]) {
+                            Alert.alert('Not enough point');
+                          }else {
+                            navigate('TransferConfirmation', { transferResultObject });
+                          }
                         }
                     } />
                 </View>
                     </KeyboardAvoidingView>
                 </ScrollView>
-             
 
-           
+
+
             </Container>
       );
     }
