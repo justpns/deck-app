@@ -113,7 +113,7 @@ class Transfer extends Component {
 
     async onParamSetup(){
       const { params } = this.props.navigation.state;
-
+      Alert.alert(params.information[4]);
       this.setState({
         fromCardId: params.information[0],
         fromPoint: params.information[1],
@@ -145,14 +145,14 @@ class Transfer extends Component {
                     <Row style={cardViewRow}>
                         <View styleName="vertical" style={cardViewRowItem}>
                             <Heading style={{ fontSize: 18 }}>{params.information[3].toVendorId.name}</Heading>
-                           
+                            <Subtitle style={{ color: '#34385d', fontSize: 13 }}>via {params.information[4]}</Subtitle>
                             <Subtitle style={{ color: '#34385d', fontSize: 14 }}>You transfer point to</Subtitle>
                         </View>
                     </Row>
                     <Row style={cardViewRow}>
                         <View styleName="vertical" style={cardViewRowItem}>
                             <Heading>{params.information[3].fromRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} : {params.information[3].toRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Heading>
-                            <Subtitle style={{ color: '#34385d', fontSize: 16 }}>With rates</Subtitle>
+                            <Subtitle style={{ color: '#34385d', fontSize: 14 }}>With rates</Subtitle>
                         </View>
                     </Row>
                     <View style={cardViewSpecifyAmount}>
@@ -161,7 +161,7 @@ class Transfer extends Component {
                         inputContainerStyle={styles.inputAmountContainer}
                         label=''
                         title='You transfer amount'
-                        titleFontSize={16}
+                        titleFontSize={14}
                         fontSize={32}
                         titleTextStyle={styles.inputAmountTitleText}
                         value={transferValue.toString()}

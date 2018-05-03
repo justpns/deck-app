@@ -48,7 +48,7 @@ class VendorPartnerCardList extends Component {
     const { params } = navigation.state;
 
     return {
-      // headerTitle: params.vendorFrom.detail.name,
+      headerTitle: params.information[1].toVendorId.name,
       // headerRight: (
       //     <TouchableOpacity>
       //         <MaterialIcons name="receipt" size={26} color="#FFFFFF" />
@@ -57,12 +57,13 @@ class VendorPartnerCardList extends Component {
     };
   };
 
-  MyCardDetailObject(cardId, cardNumber, img, point, detail) {
+  MyCardDetailObject(cardId, cardNumber, img, point, detail, vendor) {
     this.cardId = cardId;
     this.cardNumber = cardNumber;
     this.img = img;
     this.point = point;
     this.detail = detail;
+    this.vendor = vendor;
   }
 
   constructor() {
@@ -95,7 +96,6 @@ class VendorPartnerCardList extends Component {
       }).then((response) => {
         if (response.status === 200) {
           const tempArray = [];
-
           response.data.userCardlist.map((value, index) => {
             tempArray.push(new this.MyCardDetailObject(
               value.cardId,
@@ -103,6 +103,7 @@ class VendorPartnerCardList extends Component {
               '',
               value.point,
               value.royaltyProgramId,
+              response.data.royaltyProgramInfo.vendor,
             ));
           });
 
@@ -150,10 +151,11 @@ class VendorPartnerCardList extends Component {
               onPress={
                 () => {
                   const paramsObj = [];
-                  paramsObj.push(params.information[0].cardId); //from cardId
-                  paramsObj.push(params.information[0].point); //from point
-                  paramsObj.push(item.cardId); //to Card Id
-                  paramsObj.push(params.information[1]); //rules
+                  paramsObj.push(params.information[0].cardId); // from cardId
+                  paramsObj.push(params.information[0].point); // from point
+                  paramsObj.push(item.cardId); // to Card Id
+                  paramsObj.push(params.information[1]); // rules
+                  paramsObj.push(item.cardNumber);
 
                   navigate('Transfer', { information: paramsObj });
                 }
