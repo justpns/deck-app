@@ -25,6 +25,7 @@ import { MaterialIndicator } from 'react-native-indicators';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Container } from '../components/Container';
 import MyCardDetail from '../components/MyCard/MyCardDetail';
+import { serviceUrl } from '../config/constants';
 
 const screen = Dimensions.get('window');
 const IP = 'http://52.230.26.113:3333';
@@ -87,7 +88,7 @@ class VendorPartnerCardList extends Component {
     AsyncStorage.getItem('user-citizen').then((value) => {
       this.setState({ userCitizenId: value, isFetching: true });
 
-      const URL = `${IP}/partner/card/${params.information[1].toVendorId.name}/${this.state.userCitizenId}`;
+      const URL = `${serviceUrl}/partner/card/${params.information[1].toVendorId.name}/${this.state.userCitizenId}`;
       const encodeURL = encodeURI(URL);
       // Alert.alert(encodeURL);
       axios({

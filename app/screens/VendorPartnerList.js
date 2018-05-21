@@ -24,6 +24,7 @@ import { MaterialIndicator } from 'react-native-indicators';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Container } from '../components/Container';
 import VendorPartnerDetail from '../components/VendorPartner/VendorPartnerDetail';
+import { serviceUrl } from '../config/constants';
 
 const screen = Dimensions.get('window');
 const IP = 'http://52.230.26.113:3333';
@@ -77,7 +78,7 @@ class VendorPartnerList extends Component {
     this.setState({
       isFetching: true,
     });
-    const URL = `${IP}/partner/${params.fromVendor.royaltyProgramName}`;
+    const URL = `${serviceUrl}/partner/${params.fromVendor.royaltyProgramName}`;
     const encodeURL = encodeURI(URL);
     await axios({
       method: 'get',

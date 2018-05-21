@@ -32,6 +32,8 @@ import { TextField } from 'react-native-material-textfield';
 import { TextButton } from 'react-native-material-buttons';
 import { Container } from '../components/Container';
 
+import { serviceUrl } from '../config/constants';
+
 const screen = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -80,7 +82,7 @@ class AddNewCard extends Component {
       AsyncStorage.getItem('user-citizen').then((value) => {
         this.setState({ userCitizenId: value, isFetching: true });
         // Alert.alert(this.state.userCitizenId);
-        const URL = `${IP}/card`;
+        const URL = `${serviceUrl}/card`;
         // Alert.alert(URL);
         axios({
           method: 'post',

@@ -25,6 +25,7 @@ import axios from 'axios';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { RaisedTextButton } from 'react-native-material-buttons';
+import { serviceUrl } from '../config/constants';
 import { Container } from '../components/Container';
 
 const screen = Dimensions.get('window');
@@ -92,7 +93,7 @@ class TransferConfirmation extends Component {
       console.log('To: '+ toPoint);
       console.log('User Id:' + value);
 
-      const URL = `${IP}/transfer/point`;
+      const URL = `${serviceUrl}/transfer/point`;
       axios({
         method: 'post',
         url: URL,

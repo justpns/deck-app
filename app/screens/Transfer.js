@@ -22,6 +22,7 @@ import { TextField } from 'react-native-material-textfield';
 import Slider from 'react-native-slider';
 import { RaisedTextButton } from 'react-native-material-buttons';
 import { Container } from '../components/Container';
+import { serviceUrl } from '../config/constants';
 
 const thumbImg = require('../img/thumb.png');
 

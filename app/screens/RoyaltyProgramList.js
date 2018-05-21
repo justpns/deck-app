@@ -24,8 +24,10 @@ import { MaterialIndicator } from 'react-native-indicators';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Container } from '../components/Container';
 import VendorDetail from '../components/Vendor/VendorDetail';
+import { serviceUrl } from '../config/constants';
 
 const screen = Dimensions.get('window');
+
 const IP = 'http://52.230.26.113:3333';
 
 const styles = StyleSheet.create({
@@ -77,7 +79,7 @@ class RoyaltyProgramList extends Component {
       this.setState({
         isFetching: true,
       });
-      const URL = `${IP}/royal`;
+      const URL = `${serviceUrl}/royal`;
       const encodeURL = encodeURI(URL);
       await axios({
         method: 'get',

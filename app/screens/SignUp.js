@@ -30,6 +30,7 @@ import { TextField } from 'react-native-material-textfield';
 import { TextButton } from 'react-native-material-buttons';
 import { Container } from '../components/Container';
 import { onSignIn, saveUserCitizen, getUserCitizen } from '../auth/auth';
+import { serviceUrl } from '../config/constants';
 
 const app_logo = require('../img/app_logo.png');
 
@@ -105,7 +106,7 @@ class SignUp extends Component {
 
     onSignUp() {
       const { navigate } = this.props.navigation;
-      const URL = `${IP}/user`;
+      const URL = `${serviceUrl}/user`;
       axios({
         method: 'post',
         url: URL,
