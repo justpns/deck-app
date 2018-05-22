@@ -26,6 +26,7 @@ import ActionButton from 'react-native-action-button';
 
 import { Container } from '../components/Container';
 /* eslint no-underscore-dangle: 0 */
+import { serviceUrl } from '../config/constants';
 
 const screen = Dimensions.get('window');
 
@@ -97,7 +98,7 @@ class MyLoyaltyCardDetail extends Component {
         isFetchingHistory: true,
       });
 
-      const URL = `${IP}/history/card/${params.cardItem.userId}/${params.cardItem.cardId}`;
+      const URL = `${serviceUrl}/history/card/${params.cardItem.userId}/${params.cardItem.cardId}`;
       await axios({
         method: 'get',
         url: URL,

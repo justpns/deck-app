@@ -21,6 +21,7 @@ import ActionButton from 'react-native-action-button';
 
 import { Container } from '../components/Container';
 import { onSignOut } from '../auth/auth';
+import { serviceUrl } from '../config/constants';
 
 import MyCardDetail from '../components/MyCard/MyCardDetail';
 
@@ -113,7 +114,7 @@ class MyLoyaltyCardList extends Component {
     AsyncStorage.getItem('user-citizen').then((value) => {
       this.setState({ userCitizenId: value, isFetching: true });
       // Alert.alert(this.state.userCitizenId);
-      const URL = `${IP}/card/${this.state.userCitizenId}`;
+      const URL = `${serviceUrl}/card/${this.state.userCitizenId}`;
       // Alert.alert(URL);
       axios({
         method: 'get',

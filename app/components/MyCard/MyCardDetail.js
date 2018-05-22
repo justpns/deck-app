@@ -33,8 +33,8 @@ const styles = EStyleSheet.create({
   cardContentHolder: {
     flex: 1,
     flexDirection: 'column',
-    width: ((screen.width - (26 * 2)) / 2),
-    height: (120 / 2),
+    width: (screen.width - 26 * 2) / 2,
+    height: 120 / 2,
     marginTop: 120 / 2,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -45,12 +45,18 @@ const styles = EStyleSheet.create({
   },
 });
 
-const AIS_BG = 'http://www.ais.co.th/privilege/birthday/images/popup/poppic4.jpg';
-const AIR_ASIA = 'https://dexticket.weebly.com/uploads/8/4/0/7/84076736/1514944-958880350796878-2325486274520736736-n_orig.png';
-const ESSO_SMILE = 'https://d16a8a62orsrve.cloudfront.net/assets/img/card_tpl/1423810639sMVjA.png';
-const THE_ONE = 'https://bookings.co.th/wp-content/uploads/Title-The-1-Card-660x330.jpg';
-const PTT = 'https://promotions.co.th/wp-content/uploads/PTT-Blue-Card-Happiness-Dining-MK-Gold.jpg';
-const TESCO = 'https://www.tescolotus.com/assets/service/img/landing/obj-04.png';
+const AIS_BG =
+  'http://www.ais.co.th/privilege/birthday/images/popup/poppic4.jpg';
+const AIR_ASIA =
+  'https://dexticket.weebly.com/uploads/8/4/0/7/84076736/1514944-958880350796878-2325486274520736736-n_orig.png';
+const ESSO_SMILE =
+  'https://d16a8a62orsrve.cloudfront.net/assets/img/card_tpl/1423810639sMVjA.png';
+const THE_ONE =
+  'https://bookings.co.th/wp-content/uploads/Title-The-1-Card-660x330.jpg';
+const PTT =
+  'https://promotions.co.th/wp-content/uploads/PTT-Blue-Card-Happiness-Dining-MK-Gold.jpg';
+const TESCO =
+  'https://www.tescolotus.com/assets/service/img/landing/obj-04.png';
 
 const MyCardDetail = (props) => {
   const { nameLabel, pointLabel } = styles;
@@ -61,83 +67,153 @@ const MyCardDetail = (props) => {
   switch (props.card_detail.vendor) {
     case 'AIS':
       return (
-      <MyCard>
-        <View style={wrapper}>
+        <MyCard>
+          <View style={wrapper}>
+            <Image style={backgroundImage} source={{ uri: AIS_BG }} />
 
-          <Image
-            style={backgroundImage}
-            source={{ uri: AIS_BG }}
-          />
-
-          <View style={cardContentHolder}>
-            {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
-            <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
-              <Text style={pointLabel}>{`${props.card_detail.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+            <View style={cardContentHolder}>
+              {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Text
+                  style={pointLabel}
+                >{`${props.card_detail.point
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+              </View>
             </View>
           </View>
-        </View>
-
-      </MyCard>
+        </MyCard>
       );
     case 'AIR ASIA':
       return (
-      <MyCard>
-        <View style={wrapper}>
+        <MyCard>
+          <View style={wrapper}>
+            <Image style={backgroundImage} source={{ uri: AIR_ASIA }} />
 
-          <Image
-            style={backgroundImage}
-            source={{ uri: AIR_ASIA }}
-          />
-
-          <View style={cardContentHolder}>
-            {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
-            <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
-              <Text style={pointLabel}>{`${props.card_detail.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+            <View style={cardContentHolder}>
+              {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Text
+                  style={pointLabel}
+                >{`${props.card_detail.point
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+              </View>
             </View>
           </View>
-        </View>
-
-      </MyCard>
+        </MyCard>
       );
     case 'ESSO':
       return (
-      <MyCard>
-        <View style={wrapper}>
+        <MyCard>
+          <View style={wrapper}>
+            <Image style={backgroundImage} source={{ uri: ESSO_SMILE }} />
 
-          <Image
-            style={backgroundImage}
-            source={{ uri: ESSO_SMILE }}
-          />
-
-          <View style={cardContentHolder}>
-            {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
-            <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
-              <Text style={pointLabel}>{`${props.card_detail.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+            <View style={cardContentHolder}>
+              {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Text
+                  style={pointLabel}
+                >{`${props.card_detail.point
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+              </View>
             </View>
           </View>
-        </View>
-
-      </MyCard>
+        </MyCard>
       );
     case 'CENTRAL':
       return (
-      <MyCard>
-        <View style={wrapper}>
+        <MyCard>
+          <View style={wrapper}>
+            <Image style={backgroundImage} source={{ uri: THE_ONE }} />
 
-          <Image
-            style={backgroundImage}
-            source={{ uri: THE_ONE }}
-          />
-
-          <View style={cardContentHolder}>
-            {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
-            <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
-              <Text style={pointLabel}>{`${props.card_detail.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+            <View style={cardContentHolder}>
+              {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Text
+                  style={pointLabel}
+                >{`${props.card_detail.point
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+              </View>
             </View>
           </View>
-        </View>
+        </MyCard>
+      );
+    case 'PTT':
+      return (
+        <MyCard>
+          <View style={wrapper}>
+            <Image style={backgroundImage} source={{ uri: PTT }} />
 
-      </MyCard>
+            <View style={cardContentHolder}>
+              {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Text
+                  style={pointLabel}
+                >{`${props.card_detail.point
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+              </View>
+            </View>
+          </View>
+        </MyCard>
+      );
+    case 'TESCO':
+      return (
+        <MyCard>
+          <View style={wrapper}>
+            <Image style={backgroundImage} source={{ uri: TESCO }} />
+
+            <View style={cardContentHolder}>
+              {/* <Text style={nameLabel}>{`${props.card_detail.name}`}</Text> */}
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Text
+                  style={pointLabel}
+                >{`${props.card_detail.point
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Points`}</Text>
+              </View>
+            </View>
+          </View>
+        </MyCard>
       );
     default:
       return null;

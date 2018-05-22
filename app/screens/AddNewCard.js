@@ -127,7 +127,7 @@ class AddNewCard extends Component {
                     <ScrollView style={cardViewField}>
                         <TextField
                             inputContainerPadding={20}
-                            label='Cardnumber'
+                            label='Card number'
                             labelFontSize={16}
                             labelHeight={42}
                             fontSize={16}
