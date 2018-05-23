@@ -84,7 +84,7 @@ class Transfer extends Component {
       const { params } = navigation.state;
 
       return {
-        headerTitle: 'Transfer to',
+        headerTitle: `Transfer to ${params.information[3].toVendorId.name}`,
       };
     };
 
@@ -200,11 +200,15 @@ class Transfer extends Component {
                           transferResultObject.push(transferValue);
                           transferResultObject.push(params.information[0]);
                           transferResultObject.push(params.information[2]);
+                          transferResultObject.push(params.information[4]);
+                          transferResultObject.push(params.information[5]);
+
+
                           if (transferValue < params.information[3].fromRate) {
                             Alert.alert(`The minimum point is ${params.information[3].fromRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`);
                           } else if (transferValue > params.information[1]) {
                             Alert.alert('Not enough point');
-                          }else {
+                          } else {
                             navigate('TransferConfirmation', { transferResultObject });
                           }
                         }
@@ -212,7 +216,6 @@ class Transfer extends Component {
                 </View>
                     </KeyboardAvoidingView>
                 </ScrollView>
-
 
 
             </Container>

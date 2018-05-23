@@ -150,7 +150,7 @@ class MyLoyaltyCardList extends Component {
       return (
         <Container backgroundColor={this.props.primaryColor}>
           <StatusBar backgroundColor="#34385d" barStyle="light-content" />
-          <View style={{ flex: 0.65, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <MaterialIndicator color='#e5d464' />
           </View>
         </Container>

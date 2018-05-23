@@ -60,6 +60,19 @@ const styles = StyleSheet.create({
   },
 });
 
+const AIS_BG =
+  'http://www.ais.co.th/privilege/birthday/images/popup/poppic4.jpg';
+const AIR_ASIA =
+  'https://dexticket.weebly.com/uploads/8/4/0/7/84076736/1514944-958880350796878-2325486274520736736-n_orig.png';
+const ESSO_SMILE =
+  'https://d16a8a62orsrve.cloudfront.net/assets/img/card_tpl/1423810639sMVjA.png';
+const THE_ONE =
+  'https://bookings.co.th/wp-content/uploads/Title-The-1-Card-660x330.jpg';
+const PTT =
+  'https://promotions.co.th/wp-content/uploads/PTT-Blue-Card-Happiness-Dining-MK-Gold.jpg';
+const TESCO =
+  'https://www.tescolotus.com/assets/service/img/landing/obj-04.png';
+
 const IP = 'http://52.230.26.113:3333';
 
 class MyLoyaltyCardDetail extends Component {
@@ -85,11 +98,39 @@ class MyLoyaltyCardDetail extends Component {
       this.state = {
         cardTransferHistory: [],
         isFetchingHistory: true,
+        vendorImage: undefined,
       };
     }
 
     componentWillMount() {
+      const { params } = this.props.navigation.state;
       this.onRequestGetCardDetail();
+
+      if (params.cardItem.royaltyProgramName === 'AIS POINT') {
+        this.setState({
+          vendorImage: AIS_BG,
+        });
+      } else if (params.cardItem.royaltyProgramName === 'BLUE CARD') {
+        this.setState({
+          vendorImage: PTT,
+        });
+      } else if (params.cardItem.royaltyProgramName === 'ESSO SMILES') {
+        this.setState({
+          vendorImage: ESSO_SMILE,
+        });
+      } else if (params.cardItem.royaltyProgramName === 'BIG POINT') {
+        this.setState({
+          vendorImage: AIR_ASIA,
+        });
+      } else if (params.cardItem.royaltyProgramName === 'THE ONE CARD') {
+        this.setState({
+          vendorImage: THE_ONE,
+        });
+      } else {
+        this.setState({
+          vendorImage: '',
+        });
+      } 
     }
 
     async onRequestGetCardDetail() {
@@ -123,7 +164,9 @@ class MyLoyaltyCardDetail extends Component {
       const { cardTransferHistory } = this.state;
       const historyObj = [];
       for (let i = 0; i < cardTransferHistory.length; ++i) {
-        historyObj.push(<Row key={i} style={{ marginBottom: 8, marginLeft: 16, borderRadius: 10, backgroundColor: 'rgba(255, 255, 255, 0.9)' }}>
+        historyObj.push(<Row key={i} style={{
+ marginBottom: 8, marginLeft: 16, borderRadius: 10, backgroundColor: 'rgba(255, 255, 255, 0.9)' 
+}}>
                 {/* <Image
                     styleName="small-avatar"
                     source={{ uri: cardTransferHistory[i].oldRoyaltyProgramImg }}
@@ -163,7 +206,7 @@ class MyLoyaltyCardDetail extends Component {
                         </View>
                         <Image
                             styleName="small rounded-corners"
-                            source={{ uri: 'http://www.ais.co.th/privilege/birthday/images/popup/poppic4.jpg' }}
+                            source={{ uri: this.state.vendorImage }}
                           />
                     </Row>
                 </View>

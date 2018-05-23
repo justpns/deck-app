@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Dimensions,
-  AsyncStorage,
-} from 'react-native';
+import { ScrollView, StyleSheet, Dimensions, AsyncStorage, Alert } from 'react-native';
 
 import {
   Row,
@@ -22,14 +17,28 @@ import { NavigationActions } from 'react-navigation';
 
 import axios from 'axios';
 
-
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIndicator } from 'react-native-indicators';
 import { RaisedTextButton } from 'react-native-material-buttons';
 import { serviceUrl } from '../config/constants';
 import { Container } from '../components/Container';
 
 const screen = Dimensions.get('window');
 const IP = 'http://52.230.26.113:3333';
+
+const AIS_BG =
+  'http://www.ais.co.th/privilege/birthday/images/popup/poppic4.jpg';
+const AIR_ASIA =
+  'https://dexticket.weebly.com/uploads/8/4/0/7/84076736/1514944-958880350796878-2325486274520736736-n_orig.png';
+const ESSO_SMILE =
+  'https://d16a8a62orsrve.cloudfront.net/assets/img/card_tpl/1423810639sMVjA.png';
+const THE_ONE =
+  'https://bookings.co.th/wp-content/uploads/Title-The-1-Card-660x330.jpg';
+const PTT =
+  'https://promotions.co.th/wp-content/uploads/PTT-Blue-Card-Happiness-Dining-MK-Gold.jpg';
+const TESCO =
+  'https://www.tescolotus.com/assets/service/img/landing/obj-04.png';
+
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 0.92,
@@ -75,57 +84,163 @@ class TransferConfirmation extends Component {
     };
   };
 
-  constructor(){
+  constructor() {
     super();
     this.onRequestTransferPoint = this.onRequestTransferPoint.bind(this);
+    this.getUserProfile = this.getUserProfile.bind(this);
+
+    this.state = {
+      vendorImageFrom: undefined,
+      vendorImageTo: undefined,
+      isLoading: false,
+      userfirstname: '',
+      userLastname: '',
+      userCitizenId: '',
+    };
   }
 
+  componentWillMount() {
+    const { params } = this.props.navigation.state;
+
+    if (
+      params.transferResultObject[0].fromVendorId.name === 'AIS POINT' ||
+      params.transferResultObject[0].toVendorId.name === 'AIS POINT'
+    ) {
+      this.setState({
+        vendorImageFrom: AIS_BG,
+        vendorImageTo: AIS_BG,
+      });
+    } else if (
+      params.transferResultObject[0].fromVendorId.name === 'BLUE CARD'
+    ) {
+      this.setState({
+        vendorImageFrom: PTT,
+      });
+    } else if (
+      params.transferResultObject[0].fromVendorId.name === 'ESSO SMILES'
+    ) {
+      this.setState({
+        vendorImageFrom: ESSO_SMILE,
+      });
+    } else if (
+      params.transferResultObject[0].fromVendorId.name === 'BIG POINT'
+    ) {
+      this.setState({
+        vendorImageFrom: AIR_ASIA,
+      });
+    } else if (
+      params.transferResultObject[0].fromVendorId.name === 'THE ONE CARD'
+    ) {
+      this.setState({
+        vendorImageFrom: THE_ONE,
+      });
+    } else if (
+      params.transferResultObject[0].fromVendorId.name === 'TESCO'
+    ) {
+      this.setState({
+        vendorImageFrom: TESCO,
+      });
+    } else {
+      this.setState({
+        vendorImageFrom: '',
+      });
+    }
+
+    if (params.transferResultObject[0].toVendorId.name === 'AIS POINT') {
+      this.setState({
+        vendorImageTo: AIS_BG,
+      });
+    } else if (params.transferResultObject[0].toVendorId.name === 'BLUE CARD') {
+      this.setState({
+        vendorImageTo: PTT,
+      });
+    } else if (
+      params.transferResultObject[0].toVendorId.name === 'ESSO SMILES'
+    ) {
+      this.setState({
+        vendorImageTo: ESSO_SMILE,
+      });
+    } else if (params.transferResultObject[0].toVendorId.name === 'BIG POINT') {
+      this.setState({
+        vendorImageTo: AIR_ASIA,
+      });
+    } else if (
+      params.transferResultObject[0].toVendorId.name === 'THE ONE CARD'
+    ) {
+      this.setState({
+        vendorImageTo: THE_ONE,
+      });
+    } else if (
+      params.transferResultObject[0].toVendorId.name === 'TESCO'
+    ) {
+      this.setState({
+        vendorImageTo: TESCO,
+      });
+    } else {
+      this.setState({
+        vendorImageTo: '',
+      });
+    }
+  }
+
+  async getUserProfile() {
+    AsyncStorage.getItem('firstname').then((firstName) => {
+      this.setState({ userfirstname: firstName });
+    }).done();
+
+    AsyncStorage.getItem('lastname').then((lastname) => {
+      this.setState({ userLastname: lastname });
+    }).done();
+  }
 
   async onRequestTransferPoint(toPoint) {
     const { params } = this.props.navigation.state;
-    AsyncStorage.getItem('user-citizen').then((value) => {
-      this.setState({ userCitizenId: value, isFetching: true });
+    AsyncStorage.getItem('user-citizen')
+      .then((value) => {
+        this.setState({ userCitizenId: value, isFetching: true });
 
+        console.log(`From: ${params.transferResultObject[2]}`);
+        console.log(`To: ${params.transferResultObject[3]}`);
+        console.log(`From Point: ${params.transferResultObject[1]}`);
+        console.log(`To: ${toPoint}`);
+        console.log(`User Id:${value}`);
+        this.setState({
+          isLoading: true,
+        });
 
-      console.log('From: '+params.transferResultObject[2]);
-      console.log('To: '+params.transferResultObject[3]);
-      console.log('From Point: '+params.transferResultObject[1]);
-      console.log('To: '+ toPoint);
-      console.log('User Id:' + value);
-
-      const URL = `${serviceUrl}/transfer/point`;
-      axios({
-        method: 'post',
-        url: URL,
-        responseType: 'json',
-        data: {
-          userId: value.toString(),
-          fromCardId: params.transferResultObject[2].toString(),
-          fromPoint: params.transferResultObject[1].toString(),
-          toCardId: params.transferResultObject[3].toString(),        
-          toPoint: toPoint.toString(),
-        },
-      }).then((response) => {
-        if (response.status === 200) {
-          console.log(response);
-          this.props.navigation.dispatch(
-            NavigationActions.reset({
+        const URL = `${serviceUrl}/transfer/point`;
+        axios({
+          method: 'post',
+          url: URL,
+          responseType: 'json',
+          data: {
+            userId: value.toString(),
+            fromCardId: params.transferResultObject[2].toString(),
+            fromPoint: params.transferResultObject[1].toString(),
+            toCardId: params.transferResultObject[3].toString(),
+            toPoint: toPoint.toString(),
+          },
+        }).then((response) => {
+          if (response.status === 200) {
+            console.log(response);
+            this.setState({
+              isLoading: false,
+            });
+            this.props.navigation.dispatch(NavigationActions.reset({
               key: null,
               index: 0,
-              actions: [
-                NavigationActions.navigate({ routeName: 'SignedIn' }),
-              ]
-            })
-          );
-        }
-      });
-    }).done();
-  
+              actions: [NavigationActions.navigate({ routeName: 'SignedIn' })],
+            }));
+          }
+        });
+      })
+      .done();
   }
 
   render() {
     const { params } = this.props.navigation.state;
     const { navigate } = this.props.navigation;
+    const { userCitizenId, userfirstname, userLastname } = this.state;
     const contentContainer = StyleSheet.flatten(styles.contentContainer);
     const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
     const cardViewRowItem = StyleSheet.flatten(styles.cardViewRowItem);
@@ -135,67 +250,116 @@ class TransferConfirmation extends Component {
     let totalRecieve = 0;
     let rate = 0;
 
-    rate = params.transferResultObject[0].toRate / params.transferResultObject[0].fromRate;
+    rate =
+      params.transferResultObject[0].toRate /
+      params.transferResultObject[0].fromRate;
     totalRecieve = parseInt(params.transferResultObject[1]) * rate;
+
+    if (this.state.isLoading) {
+      return (
+        <Container backgroundColor={this.props.primaryColor}>
+          <View
+            style={{
+              flex: 0.65,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Tile
+              styleName="text-centric"
+              style={{ marginBottom: 8, backgroundColor: 'transparent' }}
+            >
+              <Title styleName="sm-gutter-bottom" style={{ color: '#ffffff' }}>
+                We are transfering the point. Please wait...
+              </Title>
+            </Tile>
+            <MaterialIndicator color="#e5d464" />
+          </View>
+        </Container>
+      );
+    }
 
     return (
       <Container>
         <ScrollView style={contentContainer}>
-          <Tile styleName="text-centric" style={{ marginBottom: 8, backgroundColor: 'transparent' }}>
-            <Title styleName="sm-gutter-bottom">Confirm your Transference</Title>
+          <Tile
+            styleName="text-centric"
+            style={{ marginBottom: 8, backgroundColor: 'transparent' }}
+          >
+            <Title styleName="sm-gutter-bottom">
+              Confirm your Transference
+            </Title>
           </Tile>
           <Row styleName="small" style={cardViewHeader}>
             <Text>TRANSFERENCE</Text>
             <Image
               styleName="small-avatar"
-              source={{ uri: params.transferResultObject[0].fromVendorId.img }}
+              source={{ uri: this.state.vendorImageFrom }}
             />
-            <MaterialIcons name="keyboard-arrow-right" size={20} style={{ marginRight: 12 }} />
+            <MaterialIcons
+              name="keyboard-arrow-right"
+              size={20}
+              style={{ marginRight: 12 }}
+            />
             <Image
               styleName="small-avatar"
-              source={{ uri: params.transferResultObject[0].toVendorId.img }}
+              source={{ uri: this.state.vendorImageTo }}
             />
           </Row>
-          {/* <Row style={cardViewRow}>
-            <View styleName="horizontal">
-              <View styleName="vertical space-between" style={cardViewRowItem}>
-                <Title>From</Title>
-                <Text style={{ marginTop: 8 }}>AirAsia</Text>
-                <Subtitle style={{ color: '#BFBFBF', fontSize: 14, marginTop: 5 }}>***** 1234 5678 9012</Subtitle>
-              </View>
-              <View styleName="vertical space-between" style={cardViewRowItemEnd}>
-                <Title>To</Title>
-                <Text style={{ marginTop: 8 }}>AirAsia</Text>
-                <Subtitle style={{ color: '#BFBFBF', fontSize: 14, marginTop: 5 }}>***** 1234 5678 9012</Subtitle>
-              </View>
-            </View>
-          </Row> */}
           <Row style={cardViewRow}>
             <View styleName="horizontal">
               <View styleName="vertical space-between" style={cardViewRowItem}>
-              
-                <Text style={{ marginTop: 5, fontSize: 24 }}><MaterialIcons name="loyalty" size={16} /> {params.transferResultObject[1]} </Text>
-                <Title style={{ color: '#34385d', fontSize: 16 }}>You transfer</Title>
-              </View>
-              <View styleName="vertical space-between" style={cardViewRowItemEnd}>
-              
-                <Text style={{ marginTop: 5, fontSize: 24 }}><MaterialIcons name="loyalty" size={16} /> 
-                  {totalRecieve} 
-                </Text>
-                <Title style={{ color: '#34385d', fontSize: 16 }}>You receive</Title>
+                <Title>From</Title>
+                <Text style={{ marginTop: 8 }}>{params.transferResultObject[0].fromVendorId.name}</Text>
+                <Subtitle style={{ color: '#BFBFBF', fontSize: 14, marginTop: 5 }}>{params.transferResultObject[5]}</Subtitle>
               </View>
             </View>
           </Row>
-
+          <Row style={cardViewRow}>
+            <View styleName="horizontal">
+              <View styleName="vertical space-between" style={cardViewRowItem}>
+                <Title>To</Title>
+                <Text style={{ marginTop: 8 }}>{params.transferResultObject[0].toVendorId.name}</Text>
+                <Subtitle style={{ color: '#BFBFBF', fontSize: 14, marginTop: 5 }}>{params.transferResultObject[4]}</Subtitle>
+              </View>
+            </View>
+          </Row>
+          <Row style={cardViewRow}>
+            <View styleName="horizontal">
+              <View styleName="vertical space-between" style={cardViewRowItem}>
+                <Text style={{ marginTop: 5, fontSize: 24 }}>
+                  <MaterialIcons name="loyalty" size={16} />{' '}
+                  {params.transferResultObject[1]}{' '}
+                </Text>
+                <Title style={{ color: '#34385d', fontSize: 16 }}>
+                  You transfer
+                </Title>
+              </View>
+              <View
+                styleName="vertical space-between"
+                style={cardViewRowItemEnd}
+              >
+                <Text style={{ marginTop: 5, fontSize: 24 }}>
+                  <MaterialIcons name="loyalty" size={16} />
+                  {totalRecieve}
+                </Text>
+                <Title style={{ color: '#34385d', fontSize: 16 }}>
+                  You receive
+                </Title>
+              </View>
+            </View>
+          </Row>
         </ScrollView>
         <View style={{ flex: 0.08 }}>
-          <RaisedTextButton style={{ flex: 1 }}
+          <RaisedTextButton
+            style={{ flex: 1 }}
             rippleDuration={600}
             rippleOpacity={0.54}
-            title='CONFIRM'
-            color='#34385d'
-            titleColor='white'
-            onPress={ () => this.onRequestTransferPoint(totalRecieve)} />
+            title="CONFIRM"
+            color="#34385d"
+            titleColor="white"
+            onPress={() => this.onRequestTransferPoint(totalRecieve)}
+          />
         </View>
       </Container>
     );

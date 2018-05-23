@@ -114,6 +114,8 @@ class SignIn extends Component {
       }).then((response) => {
         if (response.status === 200) {
           AsyncStorage.setItem('user-citizen', response.data.userId.toString());
+          AsyncStorage.setItem('firstName', response.data.firstname.toString());
+          AsyncStorage.setItem('lastName', response.data.lastname.toString());
           onSignIn().then(() => navigate('SignedIn'));
         } else {
           Alert.alert('Invalid Username or Password');

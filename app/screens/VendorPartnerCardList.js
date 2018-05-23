@@ -49,7 +49,7 @@ class VendorPartnerCardList extends Component {
     const { params } = navigation.state;
 
     return {
-      headerTitle: `To: ${  params.information[1].toVendorId.name}`,
+      headerTitle: `To ${  params.information[1].toVendorId.name}`,
       // headerRight: (
       //     <TouchableOpacity>
       //         <MaterialIcons name="receipt" size={26} color="#FFFFFF" />
@@ -157,6 +157,7 @@ class VendorPartnerCardList extends Component {
                   paramsObj.push(item.cardId); // to Card Id
                   paramsObj.push(params.information[1]); // rules
                   paramsObj.push(item.cardNumber);
+                  paramsObj.push(params.information[0].cardNumber);
 
                   navigate('Transfer', { information: paramsObj });
                 }
