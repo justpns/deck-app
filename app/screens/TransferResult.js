@@ -25,7 +25,6 @@ import { Container } from '../components/Container';
 
 const screen = Dimensions.get('window');
 
-
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 0.92,
@@ -76,219 +75,144 @@ const TESCO =
   'https://www.tescolotus.com/assets/service/img/landing/obj-04.png';
 
 class TransferResult extends Component {
-    static navigationOptions = ({ navigation }) => {
-      const { params } = navigation.state;
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
 
-      return {
-        header: null,
-      };
+    return {
+      header: null,
     };
+  };
 
-    constructor() {
-      super();
-      this.onRequestTransferPoint = this.onRequestTransferPoint.bind(this);
+  constructor() {
+    super();
+    this.onRequestTransferPoint = this.onRequestTransferPoint.bind(this);
 
-      this.state = {
-        vendorImageFrom: undefined,
-        vendorImageTo: undefined,
-        isLoading: false,
-      };
-    }
+    this.state = {
+      vendorImageFrom: undefined,
+      vendorImageTo: undefined,
+      isLoading: false,
+    };
+  }
 
-    componentWillMount() {
-      const { params } = this.props.navigation.state;
+  componentWillMount() {
+    const { params } = this.props.navigation.state;
+  }
 
-      if (
-        params.transferResultObject[0].fromVendorId.name === 'AIS POINT' ||
-        params.transferResultObject[0].toVendorId.name === 'AIS POINT'
-      ) {
-        this.setState({
-          vendorImageFrom: AIS_BG,
-          vendorImageTo: AIS_BG,
-        });
-      } else if (
-        params.transferResultObject[0].fromVendorId.name === 'BLUE CARD' ||
-        params.transferResultObject[0].toVendorId.name === 'BLUE CARD'
-      ) {
-        this.setState({
-          vendorImageFrom: PTT,
-          vendorImageTo: PTT,
-        });
-      } else if (
-        params.transferResultObject[0].fromVendorId.name === 'ESSO SMILES' ||
-        params.transferResultObject[0].toVendorId.name === 'ESSO SMILES'
-      ) {
-        this.setState({
-          vendorImageFrom: ESSO_SMILE,
-          vendorImageTo: ESSO_SMILE,
-        });
-      } else if (
-        params.transferResultObject[0].fromVendorId.name === 'BIG POINT' ||
-        params.transferResultObject[0].toVendorId.name === 'BIG POINT'
-      ) {
-        this.setState({
-          vendorImageFrom: AIR_ASIA,
-          vendorImageTo: AIR_ASIA,
-        });
-      } else if (
-        params.transferResultObject[0].fromVendorId.name === 'THE ONE CARD' ||
-        params.transferResultObject[0].toVendorId.name === 'THE ONE CARD'
-      ) {
-        this.setState({
-          vendorImageFrom: THE_ONE,
-          vendorImageTo: THE_ONE,
-        });
-      } else {
-        this.setState({
-          vendorImageFrom: '',
-          vendorImageTo: '',
-        });
-      }
+  async onRequestTransferPoint(toPoint) {
+    const { params } = this.props.navigation.state;
+    AsyncStorage.getItem('user-citizen')
+      .then((value) => {
+        this.setState({ userCitizenId: value, isFetching: true });
 
-      if (params.transferResultObject[0].toVendorId.name === 'AIS POINT') {
+        console.log(`From: ${params.transferResultObject[2]}`);
+        console.log(`To: ${params.transferResultObject[3]}`);
+        console.log(`From Point: ${params.transferResultObject[1]}`);
+        console.log(`To: ${toPoint}`);
+        console.log(`User Id:${value}`);
         this.setState({
-          vendorImageTo: AIS_BG,
+          isLoading: true,
         });
-      } else if (params.transferResultObject[0].toVendorId.name === 'BLUE CARD') {
-        this.setState({
-          vendorImageTo: PTT,
-        });
-      } else if (
-        params.transferResultObject[0].toVendorId.name === 'ESSO SMILES'
-      ) {
-        this.setState({
-          vendorImageTo: ESSO_SMILE,
-        });
-      } else if (params.transferResultObject[0].toVendorId.name === 'BIG POINT') {
-        this.setState({
-          vendorImageTo: AIR_ASIA,
-        });
-      } else if (
-        params.transferResultObject[0].toVendorId.name === 'THE ONE CARD'
-      ) {
-        this.setState({
-          vendorImageTo: THE_ONE,
-        });
-      } else {
-        this.setState({
-          vendorImageTo: '',
-        });
-      }
-    }
 
-    async onRequestTransferPoint(toPoint) {
-      const { params } = this.props.navigation.state;
-      AsyncStorage.getItem('user-citizen')
-        .then((value) => {
-          this.setState({ userCitizenId: value, isFetching: true });
-
-          console.log(`From: ${params.transferResultObject[2]}`);
-          console.log(`To: ${params.transferResultObject[3]}`);
-          console.log(`From Point: ${params.transferResultObject[1]}`);
-          console.log(`To: ${toPoint}`);
-          console.log(`User Id:${value}`);
-          this.setState({
-            isLoading: true,
-          });
-
-          const URL = `${serviceUrl}/transfer/point`;
-          axios({
-            method: 'post',
-            url: URL,
-            responseType: 'json',
-            data: {
-              userId: value.toString(),
-              fromCardId: params.transferResultObject[2].toString(),
-              fromPoint: params.transferResultObject[1].toString(),
-              toCardId: params.transferResultObject[3].toString(),
-              toPoint: toPoint.toString(),
-            },
-          }).then((response) => {
-            if (response.status === 200) {
-              console.log(response);
-              this.setState({
-                isLoading: false,
-              });
-              this.props.navigation.dispatch(NavigationActions.reset({
+        const URL = `${serviceUrl}/transfer/point`;
+        axios({
+          method: 'post',
+          url: URL,
+          responseType: 'json',
+          data: {
+            userId: value.toString(),
+            fromCardId: params.transferResultObject[2].toString(),
+            fromPoint: params.transferResultObject[1].toString(),
+            toCardId: params.transferResultObject[3].toString(),
+            toPoint: toPoint.toString(),
+          },
+        }).then((response) => {
+          if (response.status === 200) {
+            console.log(response);
+            this.setState({
+              isLoading: false,
+            });
+            this.props.navigation.dispatch(
+              NavigationActions.reset({
                 key: null,
                 index: 0,
                 actions: [NavigationActions.navigate({ routeName: 'SignedIn' })],
-              }));
-            }
-          });
-        })
-        .done();
-    }
+              }),
+            );
+          }
+        });
+      })
+      .done();
+  }
 
-    render() {
-      const { params } = this.props.navigation.state;
-      const { navigate } = this.props.navigation;
-      const contentContainer = StyleSheet.flatten(styles.contentContainer);
-      const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
-      const cardViewRowItem = StyleSheet.flatten(styles.cardViewRowItem);
-      const cardViewRowItemEnd = StyleSheet.flatten(styles.cardViewRowItemEnd);
-      const cardViewHeader = StyleSheet.flatten(styles.cardViewHeader);
+  render() {
+    const { params } = this.props.navigation.state;
+    const { navigate } = this.props.navigation;
+    const contentContainer = StyleSheet.flatten(styles.contentContainer);
+    const cardViewRow = StyleSheet.flatten(styles.cardViewRow);
+    const cardViewRowItem = StyleSheet.flatten(styles.cardViewRowItem);
+    const cardViewRowItemEnd = StyleSheet.flatten(styles.cardViewRowItemEnd);
+    const cardViewHeader = StyleSheet.flatten(styles.cardViewHeader);
 
-      let totalRecieve = 0;
-      let rate = 0;
+    let totalRecieve = 0;
+    let rate = 0;
 
-      rate =
-        params.transferResultObject[0].toRate /
-        params.transferResultObject[0].fromRate;
-      totalRecieve = parseInt(params.transferResultObject[1]) * rate;
+    rate =
+      params.transferResultObject[0].toRate /
+      params.transferResultObject[0].fromRate;
+    totalRecieve = parseInt(params.transferResultObject[1]) * rate;
 
-      if (this.state.isLoading) {
-        return (
-          <Container backgroundColor={this.props.primaryColor}>
-            <View
-              style={{
-                flex: 0.65,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Tile
-                styleName="text-centric"
-                style={{ marginBottom: 8, backgroundColor: 'transparent' }}
-              >
-                <Title styleName="sm-gutter-bottom" style={{ color: '#ffffff' }}>
-                  We are transfering the point. Please wait...
-                </Title>
-              </Tile>
-              <MaterialIndicator color="#e5d464" />
-            </View>
-          </Container>
-        );
-      }
-
+    if (this.state.isLoading) {
       return (
-        <Container>
-          <ScrollView style={contentContainer}>
+        <Container backgroundColor={this.props.primaryColor}>
+          <View
+            style={{
+              flex: 0.65,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             <Tile
               styleName="text-centric"
               style={{ marginBottom: 8, backgroundColor: 'transparent' }}
             >
-              <Title styleName="sm-gutter-bottom">
-                Confirm your Transference
+              <Title styleName="sm-gutter-bottom" style={{ color: '#ffffff' }}>
+                We are transfering the point. Please wait...
               </Title>
             </Tile>
-            <Row styleName="small" style={cardViewHeader}>
-              <Text>TRANSFERENCE</Text>
-              <Image
-                styleName="small-avatar"
-                source={{ uri: this.state.vendorImageFrom }}
-              />
-              <MaterialIcons
-                name="keyboard-arrow-right"
-                size={20}
-                style={{ marginRight: 12 }}
-              />
-              <Image
-                styleName="small-avatar"
-                source={{ uri: this.state.vendorImageTo }}
-              />
-            </Row>
-            {/* <Row style={cardViewRow}>
+            <MaterialIndicator color="#e5d464" />
+          </View>
+        </Container>
+      );
+    }
+
+    return (
+      <Container>
+        <ScrollView style={contentContainer}>
+          <Tile
+            styleName="text-centric"
+            style={{ marginBottom: 8, backgroundColor: 'transparent' }}
+          >
+            <Title styleName="sm-gutter-bottom">
+              Confirm your Transference
+            </Title>
+          </Tile>
+          <Row styleName="small" style={cardViewHeader}>
+            <Text>TRANSFERENCE</Text>
+            <Image
+              styleName="small-avatar"
+              source={{ uri: this.state.vendorImageFrom }}
+            />
+            <MaterialIcons
+              name="keyboard-arrow-right"
+              size={20}
+              style={{ marginRight: 12 }}
+            />
+            <Image
+              styleName="small-avatar"
+              source={{ uri: this.state.vendorImageTo }}
+            />
+          </Row>
+          {/* <Row style={cardViewRow}>
               <View styleName="horizontal">
                 <View styleName="vertical space-between" style={cardViewRowItem}>
                   <Title>From</Title>
@@ -302,46 +226,46 @@ class TransferResult extends Component {
                 </View>
               </View>
             </Row> */}
-            <Row style={cardViewRow}>
-              <View styleName="horizontal">
-                <View styleName="vertical space-between" style={cardViewRowItem}>
-                  <Text style={{ marginTop: 5, fontSize: 24 }}>
-                    <MaterialIcons name="loyalty" size={16} />{' '}
-                    {params.transferResultObject[1]}{' '}
-                  </Text>
-                  <Title style={{ color: '#34385d', fontSize: 16 }}>
-                    You transfer
-                  </Title>
-                </View>
-                <View
-                  styleName="vertical space-between"
-                  style={cardViewRowItemEnd}
-                >
-                  <Text style={{ marginTop: 5, fontSize: 24 }}>
-                    <MaterialIcons name="loyalty" size={16} />
-                    {totalRecieve}
-                  </Text>
-                  <Title style={{ color: '#34385d', fontSize: 16 }}>
-                    You receive
-                  </Title>
-                </View>
+          <Row style={cardViewRow}>
+            <View styleName="horizontal">
+              <View styleName="vertical space-between" style={cardViewRowItem}>
+                <Text style={{ marginTop: 5, fontSize: 24 }}>
+                  <MaterialIcons name="loyalty" size={16} />{' '}
+                  {params.transferResultObject[1]}{' '}
+                </Text>
+                <Title style={{ color: '#34385d', fontSize: 16 }}>
+                  You transfer
+                </Title>
               </View>
-            </Row>
-          </ScrollView>
-          <View style={{ flex: 0.08 }}>
-            <RaisedTextButton
-              style={{ flex: 1 }}
-              rippleDuration={600}
-              rippleOpacity={0.54}
-              title="CONFIRM"
-              color="#34385d"
-              titleColor="white"
-              onPress={() => this.onRequestTransferPoint(totalRecieve)}
-            />
-          </View>
-        </Container>
-      );
-    }
+              <View
+                styleName="vertical space-between"
+                style={cardViewRowItemEnd}
+              >
+                <Text style={{ marginTop: 5, fontSize: 24 }}>
+                  <MaterialIcons name="loyalty" size={16} />
+                  {totalRecieve}
+                </Text>
+                <Title style={{ color: '#34385d', fontSize: 16 }}>
+                  You receive
+                </Title>
+              </View>
+            </View>
+          </Row>
+        </ScrollView>
+        <View style={{ flex: 0.08 }}>
+          <RaisedTextButton
+            style={{ flex: 1 }}
+            rippleDuration={600}
+            rippleOpacity={0.54}
+            title="CONFIRM"
+            color="#34385d"
+            titleColor="white"
+            onPress={() => this.onRequestTransferPoint(totalRecieve)}
+          />
+        </View>
+      </Container>
+    );
+  }
 }
 
 export default TransferResult;

@@ -39,6 +39,8 @@ const PTT =
 const TESCO =
   'https://www.tescolotus.com/assets/service/img/landing/obj-04.png';
 
+const COMPLETE_IMG = '../img/completed_stamp.png';
+
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 0.92,
@@ -93,6 +95,7 @@ class TransferConfirmation extends Component {
       vendorImageFrom: undefined,
       vendorImageTo: undefined,
       isLoading: false,
+      isCompleted: false,
       userfirstname: '',
       userLastname: '',
       userCitizenId: '',
@@ -225,16 +228,20 @@ class TransferConfirmation extends Component {
             console.log(response);
             this.setState({
               isLoading: false,
+              isCompleted: true,
             });
-            this.props.navigation.dispatch(NavigationActions.reset({
-              key: null,
-              index: 0,
-              actions: [NavigationActions.navigate({ routeName: 'SignedIn' })],
-            }));
           }
         });
       })
       .done();
+  }
+
+  goBackToHome(){
+    this.props.navigation.dispatch(NavigationActions.reset({
+      key: null,
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'SignedIn' })],
+    }));
   }
 
   render() {
@@ -270,13 +277,100 @@ class TransferConfirmation extends Component {
               style={{ marginBottom: 8, backgroundColor: 'transparent' }}
             >
               <Title styleName="sm-gutter-bottom" style={{ color: '#ffffff' }}>
-                We are transfering the point. Please wait...
+                We are transferring the point. Please wait...
               </Title>
             </Tile>
             <MaterialIndicator color="#e5d464" />
           </View>
         </Container>
       );
+    } else if (this.state.isCompleted) {
+      return(
+     <Container>
+        <ScrollView style={contentContainer}>
+          <Tile
+            styleName="text-centric"
+            style={{ marginBottom: 4, backgroundColor: 'transparent' }}
+          >
+            <Image
+              styleName="medium-wide"
+              style={{ height: 140, width: 230 }}
+              source={require(COMPLETE_IMG)}
+            />
+          </Tile>
+          <Row styleName="small" style={cardViewHeader}>
+            <Text>TRANSFERENCE</Text>
+            <Image
+              styleName="small-avatar"
+              source={{ uri: this.state.vendorImageFrom }}
+            />
+            <MaterialIcons
+              name="keyboard-arrow-right"
+              size={20}
+              style={{ marginRight: 12 }}
+            />
+            <Image
+              styleName="small-avatar"
+              source={{ uri: this.state.vendorImageTo }}
+            />
+          </Row>
+          <Row style={cardViewRow}>
+            <View styleName="horizontal">
+              <View styleName="vertical space-between" style={cardViewRowItem}>
+                <Title>From</Title>
+                <Text style={{ marginTop: 8 }}>{params.transferResultObject[0].fromVendorId.name}</Text>
+                <Subtitle style={{ color: '#BFBFBF', fontSize: 14, marginTop: 5 }}>{params.transferResultObject[5]}</Subtitle>
+              </View>
+            </View>
+          </Row>
+          <Row style={cardViewRow}>
+            <View styleName="horizontal">
+              <View styleName="vertical space-between" style={cardViewRowItem}>
+                <Title>To</Title>
+                <Text style={{ marginTop: 8 }}>{params.transferResultObject[0].toVendorId.name}</Text>
+                <Subtitle style={{ color: '#BFBFBF', fontSize: 14, marginTop: 5 }}>{params.transferResultObject[4]}</Subtitle>
+              </View>
+            </View>
+          </Row>
+          <Row style={cardViewRow}>
+            <View styleName="horizontal">
+              <View styleName="vertical space-between" style={cardViewRowItem}>
+                <Text style={{ marginTop: 5, fontSize: 24 }}>
+                  <MaterialIcons name="loyalty" size={16} />{' '}
+                  {params.transferResultObject[1]}{' '}
+                </Text>
+                <Title style={{ color: '#34385d', fontSize: 16 }}>
+                  You transfer
+                </Title>
+              </View>
+              <View
+                styleName="vertical space-between"
+                style={cardViewRowItemEnd}
+              >
+                <Text style={{ marginTop: 5, fontSize: 24 }}>
+                  <MaterialIcons name="loyalty" size={16} />
+                  {totalRecieve}
+                </Text>
+                <Title style={{ color: '#34385d', fontSize: 16 }}>
+                  You receive
+                </Title>
+              </View>
+            </View>
+          </Row>
+        </ScrollView>
+        <View style={{ flex: 0.08 }}>
+          <RaisedTextButton
+            style={{ flex: 1 }}
+            rippleDuration={600}
+            rippleOpacity={0.54}
+            title="CLOSE"
+            color="#34385d"
+            titleColor="white"
+            onPress={() =>  this.goBackToHome()}
+          />
+        </View>
+      </Container>
+      )
     }
 
     return (
